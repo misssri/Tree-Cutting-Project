@@ -124,12 +124,14 @@ public class ControlServlet extends HttpServlet {
 	   	 	String firstName = request.getParameter("firstName");
 	   	 	String lastName = request.getParameter("lastName");
 	   	 	String password = request.getParameter("password");
-	   	 	String birthday = request.getParameter("birthday");
 	   	 	String adress_street_num = request.getParameter("adress_street_num"); 
 	   	 	String adress_street = request.getParameter("adress_street"); 
 	   	 	String adress_city = request.getParameter("adress_city"); 
 	   	 	String adress_state = request.getParameter("adress_state"); 
-	   	 	String adress_zip_code = request.getParameter("adress_zip_code"); 	   	 	
+	   	 	String adress_zip_code = request.getParameter("adress_zip_code"); 
+	   	 	String phonenumber = request.getParameter("phonenumber");
+	   	 	String creditcardnumber = request.getParameter("creditcardnumber");
+	   	 	String role = request.getParameter("role");
 	   	 	String confirm = request.getParameter("confirmation");
 	   	 	
 	   	 	if (password.equals(confirm)) {

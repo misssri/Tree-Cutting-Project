@@ -45,7 +45,7 @@ public class userDAO
             } catch (ClassNotFoundException e) {
                 throw new SQLException(e);
             }
-            connect = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false&user=john&password=john1234");
+            connect = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/treecutting?allowPublicKeyRetrieval=true&useSSL=false&user=root&password=Vishnupriya2");
             System.out.println(connect);
         }
     }
@@ -53,7 +53,7 @@ public class userDAO
     public boolean database_login(String email, String password) throws SQLException{
     	try {
     		connect_func("root","pass1234");
-    		String sql = "select * from user where email = ?";
+    		String sql = "select * from Client where email = ?";
     		preparedStatement = connect.prepareStatement(sql);
     		preparedStatement.setString(1, email);
     		ResultSet rs = preparedStatement.executeQuery();
@@ -81,7 +81,7 @@ public class userDAO
     
     public List<user> listAllUsers() throws SQLException {
         List<user> listUser = new ArrayList<user>();        
-        String sql = "SELECT * FROM User";      
+        String sql = "SELECT * FROM Client";      
         connect_func();      
         statement = (Statement) connect.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
@@ -91,18 +91,19 @@ public class userDAO
             String firstName = resultSet.getString("firstName");
             String lastName = resultSet.getString("lastName");
             String password = resultSet.getString("password");
-            String birthday = resultSet.getString("birthday");
             String adress_street_num = resultSet.getString("adress_street_num"); 
             String adress_street = resultSet.getString("adress_street"); 
             String adress_city = resultSet.getString("adress_city"); 
             String adress_state = resultSet.getString("adress_state"); 
             String adress_zip_code = resultSet.getString("adress_zip_code"); 
-            int cash_bal = resultSet.getInt("cash_bal");
-            int PPS_bal = resultSet.getInt("PPS_bal");
+            String phonenumber = resultSet.getString("phonenumber");
+            String creditcardnumber = resultSet.getString("creditcardnumber");
+            String role = resultSet.getString("role");
+            
 
              
-            user users = new user(email,firstName, lastName, password, birthday, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, cash_bal,PPS_bal);
-            listUser.add(users);
+            user Client = new user(email,firstName, lastName, password,  adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, phonenumber, creditcardnumber, role);
+            listUser.add(Client);
         }        
         resultSet.close();
         disconnect();        
@@ -117,7 +118,7 @@ public class userDAO
     
     public void insert(user users) throws SQLException {
     	connect_func("root","pass1234");         
-		String sql = "insert into User(email, firstName, lastName, password, birthday,adress_street_num, adress_street,adress_city,adress_state,adress_zip_code,cash_bal,PPS_bal) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?)";
+		String sql = "insert into Client(email, firstName, lastName, password, birthday,adress_street_num, adress_street,adress_city,adress_state,adress_zip_code,cash_bal,PPS_bal) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 			preparedStatement.setString(1, users.getEmail());
 			preparedStatement.setString(2, users.getFirstName());
