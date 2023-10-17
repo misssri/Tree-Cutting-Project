@@ -19,11 +19,11 @@
                 <th>Email</th>
                 <th>First name</th>
                 <th>Last name</th>
-                <th>Adress</th>
+                <th>Address</th>
                 <th>Password</th>
-                <th>Birthday</th>
-                <th>cash_bal($)</th>
-                <th>PPS_bal</th>
+                <th>role</th>
+                <th>Phone number</th>
+                <th>Credit Card Number</th>
             </tr>
             <c:forEach var="user" items="${get_user}">
                 <tr style="text-align:center">
@@ -32,9 +32,9 @@
                     <td>"${user.lastName}"</td>
                     <td>"${user.adress_street_num} ${users.adress_street} ${users.adress_city} ${users.adress_state} ${users.adress_zip_code}"</td>
                     <td>"${user.password}"</td>
-                    <td>"${user.birthday}"</td>
-                    <td>"${user.cash_bal}"</td>
-                    <td>"${user.PPS_bal}"</td>
+                    <td>"${user.role}"</td>
+                    <td>"${user.phonenumber}"</td>
+                    <td>"${user.creditcardnumber}"</td>
                  </tr>
             </c:forEach>
           </table>

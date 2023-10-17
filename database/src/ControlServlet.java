@@ -129,15 +129,15 @@ public class ControlServlet extends HttpServlet {
 	   	 	String adress_city = request.getParameter("adress_city"); 
 	   	 	String adress_state = request.getParameter("adress_state"); 
 	   	 	String adress_zip_code = request.getParameter("adress_zip_code"); 
+	   	    String role = request.getParameter("role");
 	   	 	String phonenumber = request.getParameter("phonenumber");
 	   	 	String creditcardnumber = request.getParameter("creditcardnumber");
-	   	 	String role = request.getParameter("role");
 	   	 	String confirm = request.getParameter("confirmation");
 	   	 	
 	   	 	if (password.equals(confirm)) {
 	   	 		if (!userDAO.checkEmail(email)) {
 		   	 		System.out.println("Registration Successful! Added to database");
-		            user users = new user(email,firstName, lastName, password, birthday, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, 1000,0);
+		            user users = new user(email,firstName, lastName, password, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, role,phonenumber,creditcardnumber);
 		   	 		userDAO.insert(users);
 		   	 		response.sendRedirect("login.jsp");
 	   	 		}
