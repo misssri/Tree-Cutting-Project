@@ -31,7 +31,7 @@
                 <th>PhoneNumber</th>
                 <th>CreditCardInfo</th>
             </tr>
-            <c:forEach var="users" items="${listAllUsers}">
+            <c:forEach var="user" items="${listUser}">
                 <tr style="text-align:center">
                     <td><c:out value="${users.Email}" /></td>
                     <td><c:out value="${users.FirstName}" /></td>
