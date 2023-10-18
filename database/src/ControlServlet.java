@@ -96,19 +96,19 @@ public class ControlServlet extends HttpServlet {
 	    
 	    
 	    protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-	    	 String email = request.getParameter("email");
-	    	 String password = request.getParameter("password");
+	    	 String Email = request.getParameter("Email");
+	    	 String Password = request.getParameter("Password");
 	    	 
-	    	 if (email.equals("root") && password.equals("pass1234")) {
+	    	 if (Email.equals("root") && Password.equals("pass1234")) {
 				 System.out.println("Login Successful! Redirecting to root");
 				 session = request.getSession();
-				 session.setAttribute("username", email);
+				 session.setAttribute("username", Email);
 				 rootPage(request, response, "");
 	    	 }
-	    	 else if(userDAO.isValid(email, password)) 
+	    	 else if(userDAO.isValid(Email, Password)) 
 	    	 {
 			 	 
-			 	 currentUser = email;
+			 	 currentUser = Email;
 				 System.out.println("Login Successful! Redirecting");
 				 request.getRequestDispatcher("activitypage.jsp").forward(request, response);
 			 			 			 			 
@@ -120,24 +120,24 @@ public class ControlServlet extends HttpServlet {
 	    }
 	           
 	    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-	    	String email = request.getParameter("email");
-	   	 	String firstName = request.getParameter("firstName");
-	   	 	String lastName = request.getParameter("lastName");
-	   	 	String password = request.getParameter("password");
-	   	 	String adress_street_num = request.getParameter("adress_street_num"); 
-	   	 	String adress_street = request.getParameter("adress_street"); 
-	   	 	String adress_city = request.getParameter("adress_city"); 
-	   	 	String adress_state = request.getParameter("adress_state"); 
-	   	 	String adress_zip_code = request.getParameter("adress_zip_code"); 
-	   	    String role = request.getParameter("role");
-	   	 	String phonenumber = request.getParameter("phonenumber");
-	   	 	String creditcardnumber = request.getParameter("creditcardnumber");
+	    	String Email = request.getParameter("Email");
+	   	 	String FirstName = request.getParameter("FirstName");
+	   	 	String LastName = request.getParameter("LastName");
+	   	 	String Password = request.getParameter("Password");
+	   	 	String address_street_num = request.getParameter("address_street_num"); 
+	   	 	String address_street = request.getParameter("address_street"); 
+	   	 	String address_city = request.getParameter("address_city"); 
+	   	 	String address_state = request.getParameter("address_state"); 
+	   	 	String address_zip_code = request.getParameter("address_zip_code"); 
+	   	    String Role = request.getParameter("Role");
+	   	 	String PhoneNumber = request.getParameter("PhoneNumber");
+	   	 	String CreditCardInfo = request.getParameter("CreditCardInfo");
 	   	 	String confirm = request.getParameter("confirmation");
 	   	 	
-	   	 	if (password.equals(confirm)) {
-	   	 		if (!userDAO.checkEmail(email)) {
+	   	 	if (Password.equals(confirm)) {
+	   	 		if (!userDAO.checkEmail(Email)) {
 		   	 		System.out.println("Registration Successful! Added to database");
-		            user users = new user(email,firstName, lastName, password, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, role,phonenumber,creditcardnumber);
+		            user users = new user(Email,FirstName, LastName, Password, address_street_num,  address_street,  address_city,  address_state,  address_zip_code, Role,PhoneNumber,CreditCardInfo);
 		   	 		userDAO.insert(users);
 		   	 		response.sendRedirect("login.jsp");
 	   	 		}

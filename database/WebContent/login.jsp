@@ -15,13 +15,13 @@
 				<tr>
 					<th>Username: </th>
 					<td>
-						<input type="text" name="email" size="45" autofocus>
+						<input type="text" name="Email" size="45" autofocus>
 					</td>
 				</tr>
 				<tr>
 					<th>Password: </th>
 					<td> 
-						<input type="password" name="password" size="45">
+						<input type="password" name="Password" size="45">
 					</td>
 				</tr>
 				<tr>

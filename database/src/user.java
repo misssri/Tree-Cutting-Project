@@ -1,127 +1,128 @@
 public class user 
 {
-		protected String password;
-	 	protected String email;
-	    protected String firstName;
-	    protected String lastName;
-	    protected String adress_street_num;
-	    protected String adress_street;
-	    protected String adress_city;
-	    protected String adress_state;
-	    protected String adress_zip_code;
-	    protected String role;
-	    protected String phonenumber;
-	    protected String creditcardnumber;
+		protected String Password;
+	 	protected String Email;
+	    protected String FirstName;
+	    protected String LastName;
+	    protected String address_street_num;
+	    protected String address_street;
+	    protected String address_city;
+	    protected String address_state;
+	    protected String address_zip_code;
+	    protected String Role;
+	    protected String PhoneNumber;
+	    protected String CreditCardInfo;
 	 
 	    //constructors
 	    public user() {
 	    }
 	 
-	    public user(String email) 
+	    public user(String Email) 
 	    {
-	        this.email = email;
+	        this.Email = Email;
 	    }
 	    
-	    public user(String email,String firstName, String lastName, String password, String adress_street_num, String adress_street, String adress_city, String adress_state,String adress_zip_code, String role,String phonenumber,  String creditcardnumber) 
+	    public user(String Email,String FirstName, String LastName, String Password, String address_street_num, String address_street, String address_city, String address_state,String address_zip_code, String Role,String PhoneNumber,  String CreditCardInfo) 
 	    {
-	    	this(firstName,lastName,password, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code,role,phonenumber,creditcardnumber);
-	    	this.email = email;
+	    	this(FirstName,LastName,Password, address_street_num,  address_street,  address_city,  address_state,  address_zip_code,Role,PhoneNumber,CreditCardInfo);
+	    	this.Email = Email;
 	    }
 	 
 	
-	    public user(String firstName, String lastName, String password, String adress_street_num, String adress_street, String adress_city, String adress_state,String adress_zip_code,String role, String phonenumber,  String creditcardnumber) 
+	    public user(String FirstName, String LastName, String Password, String address_street_num, String address_street, String address_city, String address_state,String address_zip_code,String Role, String PhoneNumber,  String CreditCardInfo) 
 	    {
-	    	this.firstName = firstName;
-	    	this.lastName = lastName;
-	    	this.password = password;
+	    	
+	    	this.FirstName = FirstName;
+	    	this.LastName = LastName;
+	    	this.Password = Password;
 	        
-	        this.adress_street_num = adress_street_num;
-	        this.adress_street = adress_street;
-	        this.adress_city= adress_city;
-	        this.adress_state = adress_state;
-	        this.adress_zip_code = adress_zip_code;
-	        this.role = role;
-	        this.phonenumber = phonenumber;
-	        this.creditcardnumber = creditcardnumber;
+	        this.address_street_num = address_street_num;
+	        this.address_street = address_street;
+	        this.address_city= address_city;
+	        this.address_state = address_state;
+	        this.address_zip_code = address_zip_code;
+	        this.Role = Role;
+	        this.PhoneNumber = PhoneNumber;
+	        this.CreditCardInfo = CreditCardInfo;
 	    }
 	    
 	   //getter and setter methods
 	    public String getEmail() {
-	        return email;
+	        return Email;
 	    }
-	    public void setEmail(String email) {
-	        this.email = email;
+	    public void setEmail(String Email) {
+	        this.Email = Email;
 	    }
 	    
 	    public String getFirstName() {
-	        return firstName;
+	        return FirstName;
 	    }
-	    public void setFirstName(String firstName) {
-	        this.firstName = firstName;
+	    public void setFirstName(String FirstName) {
+	        this.FirstName = FirstName;
 	    }
 	    
 	    public String getLastName() {
-	        return lastName;
+	        return LastName;
 	    }
-	    public void setLastName(String lastName) {
-	        this.lastName = lastName;
+	    public void setLastName(String LastName) {
+	        this.LastName = LastName;
 	    }
 	    
 	    public String getPassword() {
-	        return password;
+	        return Password;
 	    }
-	    public void setPassword(String password) {
-	        this.password = password;
+	    public void setPassword(String Password) {
+	        this.Password = Password;
 	    }
 	  
 	    
 	    
-	    public String getAdress_street_num() {
-	        return adress_street_num;
+	    public String getAddress_street_num() {
+	        return address_street_num;
 	    }
-	    public void setAdress_street_num(String adress_street_num) {
-	        this.adress_street_num = adress_street_num;
+	    public void setAddress_street_num(String address_street_num) {
+	        this.address_street_num = address_street_num;
 	    }
-	    public String getAdress_street() {
-	        return adress_street;
+	    public String getAddress_street() {
+	        return address_street;
 	    }
-	    public void setAdress_street(String adress_street) {
-	        this.adress_street = adress_street;
+	    public void setAddress_street(String address_street) {
+	        this.address_street = address_street;
 	    }
-	    public String getAdress_city() {
-	        return adress_city;
+	    public String getAddress_city() {
+	        return address_city;
 	    }
-	    public void setAdress_city(String adress_city) {
-	        this.adress_city = adress_city;
+	    public void setAddress_city(String address_city) {
+	        this.address_city = address_city;
 	    }
-	    public String getAdress_state() {
-	        return adress_state;
+	    public String getAddress_state() {
+	        return address_state;
 	    }
-	    public void setAdress_state(String adress_state) {
-	        this.adress_state = adress_state;
+	    public void setAddress_state(String address_state) {
+	        this.address_state = address_state;
 	    }
-	    public String getAdress_zip_code() {
-	        return adress_zip_code;
+	    public String getAddress_zip_code() {
+	        return address_zip_code;
 	    }
-	    public void setAdress_zip_code(String adress_zip_code) {
-	        this.adress_zip_code = adress_zip_code;
+	    public void setAddress_zip_code(String address_zip_code) {
+	        this.address_zip_code = address_zip_code;
 	    }
-	    public String getPhonenumber() {
-	    	return phonenumber;
+	    public String getPhoneNumber() {
+	    	return PhoneNumber;
 	    }
-	    public void setPhonenumber(String phonenumber) {
-	    	this.phonenumber = phonenumber;
+	    public void setPhoneNumber(String PhoneNumber) {
+	    	this.PhoneNumber = PhoneNumber;
 	    }
-	    public String getCreditcardnumber() {
-	        return creditcardnumber;
+	    public String getCreditCardInfo() {
+	        return CreditCardInfo;
 	    }
-	    public void setCreditcardnumber(String creditcardnumber) {
-	        this.creditcardnumber = creditcardnumber;
+	    public void setCreditCardInfo(String CreditCardInfo) {
+	        this.CreditCardInfo = CreditCardInfo;
 	    }
 	    public String getRole() {
-	        return role;
+	        return Role;
 	    }
-	    public void setRole(String role) {
-	        this.role = role;
+	    public void setRole(String Role) {
+	        this.Role = Role;
 	    }
 	}

@@ -23,24 +23,24 @@
             <caption><h2>List of Users</h2></caption>
             <tr>
                 <th>Email</th>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Adress</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Address</th>
                 <th>Password</th>
-                <th>Birthday</th>
-                <th>cash_bal($)</th>
-                <th>PPS_bal</th>
+                <th>Role</th>
+                <th>PhoneNumber</th>
+                <th>CreditCardInfo</th>
             </tr>
-            <c:forEach var="users" items="${listUser}">
+            <c:forEach var="users" items="${listAllUsers}">
                 <tr style="text-align:center">
-                    <td><c:out value="${users.email}" /></td>
-                    <td><c:out value="${users.firstName}" /></td>
-                    <td><c:out value="${users.lastName}" /></td>
-                    <td><c:out value= "${users.adress_street_num} ${users.adress_street} ${users.adress_city} ${users.adress_state} ${users.adress_zip_code}" /></td>
-                    <td><c:out value="${users.password}" /></td>
-                    <td><c:out value="${users.role}" /></td>
-                    <td><c:out value="${users.phonenumber}"/></td>
-                    <td><c:out value="${users.creditcardnumber}" /></td>
+                    <td><c:out value="${users.Email}" /></td>
+                    <td><c:out value="${users.FirstName}" /></td>
+                    <td><c:out value="${users.LastName}" /></td>
+                    <td><c:out value= "${users.address_street_num} ${users.address_street} ${users.address_city} ${users.address_state} ${users.address_zip_code}" /></td>
+                    <td><c:out value="${users.Password}" /></td>
+                    <td><c:out value="${users.Role}" /></td>
+                    <td><c:out value="${users.PhoneNumber}"/></td>
+                    <td><c:out value="${users.CreditCardInfo}" /></td>
             </c:forEach>
         </table>
 	</div>

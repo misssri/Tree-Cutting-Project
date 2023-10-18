@@ -25,16 +25,16 @@
                 <th>Phone number</th>
                 <th>Credit Card Number</th>
             </tr>
-            <c:forEach var="user" items="${get_user}">
+            <c:forEach var="user" items="${getUser}">
                 <tr style="text-align:center">
-                    <td>"${user.email}" </td>
-                    <td>"${user.firstName}"</td>
-                    <td>"${user.lastName}"</td>
-                    <td>"${user.adress_street_num} ${users.adress_street} ${users.adress_city} ${users.adress_state} ${users.adress_zip_code}"</td>
-                    <td>"${user.password}"</td>
-                    <td>"${user.role}"</td>
-                    <td>"${user.phonenumber}"</td>
-                    <td>"${user.creditcardnumber}"</td>
+                    <td>"${user.Email}" </td>
+                    <td>"${user.FirstName}"</td>
+                    <td>"${user.LastName}"</td>
+                    <td>"${user.address_street_num} ${users.address_street} ${users.address_city} ${users.address_state} ${users.address_zip_code}"</td>
+                    <td>"${user.Password}"</td>
+                    <td>"${user.Role}"</td>
+                    <td>"${user.PhoneNumber}"</td>
+                    <td>"${user.CreditcardInfo}"</td>
                  </tr>
             </c:forEach>
           </table>

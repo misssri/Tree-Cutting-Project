@@ -12,26 +12,26 @@
 				<tr>
 					<th>Username: </th>
 					<td align="center" colspan="3">
-						<input type="text" name="email" size="45"  value="example@gmail.com" onfocus="this.value=''">
+						<input type="text" name="Email" size="45"  value="example@gmail.com" onfocus="this.value=''">
 					</td>
 				</tr>
 				<tr>
 					<th>First Name: </th>
 					<td align="center" colspan="3">
-						<input type="text" name="firstName" size="45" value="FirstName" onfocus="this.value=''">
+						<input type="text" name="FirstName" size="45" value="FirstName" onfocus="this.value=''">
 					</td>
 				</tr>
 				<tr>
 					<th>Last Name: </th>
 					<td align="center" colspan="3">
-						<input type="text" name="lastName" size="45" value="LastName" onfocus="this.value=''">
+						<input type="text" name="LastName" size="45" value="LastName" onfocus="this.value=''">
 					</td>
 				</tr>
 				
 				<tr>
 					<th>Password: </th>
 					<td align="center" colspan="3"> 
-						<input type="password" name="password" size="45" value="password" onfocus="this.value=''">
+						<input type="password" name="Password" size="45" value="password" onfocus="this.value=''">
 					</td>
 				</tr>
 				<tr>
@@ -66,21 +66,21 @@
 				<tr>
 					<th>State: </th>
 					<td align="center" colspan="3">
-						<input type="text" name="state" size="45" value="Eg:MI" onfocus="this.value=''">
+						<input type="text" name="address_state" size="45" value="Eg:MI" onfocus="this.value=''">
 					</td>
 	
 				</tr>
 				<tr>
 					<th> Zip code:</th>
 					<td align="center" colspan="3">
-						<input type="text" name="zipcode" size="45" value="Eg:12345" onfocus="this.value=''">
+						<input type="text" name="address_zipcode" size="45" value="Eg:12345" onfocus="this.value=''">
 					</td>
 	
 				</tr>
 				<tr>
 					<th>Role: </th>
 					<td align="center" colspan="3">
-						<input type="text" name="role" size="45" value="role" onfocus="this.value=''">
+						<input type="text" name="Role" size="45" value="role" onfocus="this.value=''">
 					</td>
 	
 				</tr>
@@ -94,7 +94,7 @@
 				<tr>
 					<th>Credit Card number: </th>
 					<td align="center" colspan="3">
-						<input type="text" name="creditcardnumber" size="45" value="XXXX-XXXX-XXXX-XXXX" onfocus="this.value=''">
+						<input type="text" name="CreditCardInfo" size="45" value="XXXX-XXXX-XXXX-XXXX" onfocus="this.value=''">
 					</td>
 	
 				</tr>
