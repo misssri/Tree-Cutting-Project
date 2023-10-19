@@ -3,6 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head><title>Registration</title></head>
+ <style>
+    body {
+        background-image: url("C:/Users/svpv2/Downloads/360_F_352735994_4FpchPEOdipty9TvI4WWjjI1xgJdB5m6.jpg");
+        background-size: cover; /* Adjust to your needs */
+    }
+</style>
+
 <body>
 	<div align="center">
 		<p> ${errorOne } </p>

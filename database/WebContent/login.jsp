@@ -7,7 +7,7 @@
 <title>Login to Database</title>
 </head>
 <body>
- <center>	<h1> Welcome to  Login page </h1> </center>
+ <center>	<h1> Welcome to David's Tree Care Login page </h1> </center>
 	<div align="center">
 		<p> ${loginFailedStr} </p>
 		<form action="login" method="post">
