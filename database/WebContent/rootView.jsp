@@ -17,30 +17,32 @@
 	</form>
 	<a href="login.jsp"target ="_self" > logout</a><br><br> 
 
-<h1>List all users</h1>
+<h1>List all clients</h1>
     <div align="center">
         <table border="1" cellpadding="6">
-            <caption><h2>List of Users</h2></caption>
+            <caption><h2>List of clients</h2></caption>
             <tr>
                 <th>Email</th>
-                <th>FirstName</th>
-                <th>LastName</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Password</th>
                 <th>Address</th>
                 <th>Password</th>
                 <th>Role</th>
-                <th>PhoneNumber</th>
-                <th>CreditCardInfo</th>
+                <th>Phone number</th>
+                <th>Credit card info</th>
             </tr>
-            <c:forEach var="user" items="${listUser}">
+            <c:forEach var="client" items="${listClient}">
                 <tr style="text-align:center">
-                    <td><c:out value="${users.Email}" /></td>
-                    <td><c:out value="${users.FirstName}" /></td>
-                    <td><c:out value="${users.LastName}" /></td>
-                    <td><c:out value= "${users.address_street_num} ${users.address_street} ${users.address_city} ${users.address_state} ${users.address_zip_code}" /></td>
-                    <td><c:out value="${users.Password}" /></td>
-                    <td><c:out value="${users.Role}" /></td>
-                    <td><c:out value="${users.PhoneNumber}"/></td>
-                    <td><c:out value="${users.CreditCardInfo}" /></td>
+                    <td><c:out value="${clients.Email}" /></td>
+                    <td><c:out value="${clients.FirstName}" /></td>
+                    <td><c:out value="${clients.LastName}" /></td>
+                    <td><c:out value="${clients.Password}" /></td>
+                    <td><c:out value= "${clients.address_street_num} ${clients.address_street} ${clients.address_city} ${clients.address_state} ${clients.address_zip_code}" /></td>
+                    <td><c:out value="${clients.Role}" /></td>
+                    <td><c:out value="${clients.PhoneNumber}"/></td>
+                    <td><c:out value="${clients.CreditCardInfo}" /></td>
+                    </tr>
             </c:forEach>
         </table>
 	</div>

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Activity page</title>
+<title>Hello page</title>
 </head>
 
 <center><h1>Welcome! You have been successfully logged in</h1> </center>
@@ -15,7 +15,7 @@
 	<body>
 	 <center>
 		 <a href="login.jsp"target ="_self" > logout</a><br><br> 
-		 <p> You can show all the transactions or other attributes here like balance, name of the user and others.</p>
+		 <p> You can place orders here to maintain your trees</p>
 		 </center>
 	</body>
 </html>

@@ -20,10 +20,12 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 
 
+
+// file
 public class ControlServlet extends HttpServlet {
 	    private static final long serialVersionUID = 1L;
-	    private userDAO userDAO = new userDAO();
-	    private String currentUser;
+	    private clientDAO clientDAO = new clientDAO();
+	    private String currentClient;
 	    private HttpSession session=null;
 	    
 	    public ControlServlet()
@@ -33,8 +35,8 @@ public class ControlServlet extends HttpServlet {
 	    
 	    public void init()
 	    {
-	    	userDAO = new userDAO();
-	    	currentUser= "";
+	    	clientDAO = new clientDAO();
+	    	currentClient= "";
 	    }
 	    
 	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,7 +44,8 @@ public class ControlServlet extends HttpServlet {
 	    }
 	    
 	    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	        String action = request.getServletPath();
+	    	 System.out.println("doGet start: 111111111111111111111111111111111111");
+	    	String action = request.getServletPath();
 	        System.out.println(action);
 	    
 	    try {
@@ -54,7 +57,7 @@ public class ControlServlet extends HttpServlet {
         		register(request, response);
         		break;
         	case "/initialize":
-        		userDAO.init();
+        		clientDAO.init();
         		System.out.println("Database successfully initialized!");
         		rootPage(request,response,"");
         		break;
@@ -66,7 +69,7 @@ public class ControlServlet extends HttpServlet {
         		break;
         	 case "/list": 
                  System.out.println("The action is: list");
-                 listUser(request, response);           	
+                 listClient(request, response);           	
                  break;
 	    	}
 	    }
@@ -75,13 +78,14 @@ public class ControlServlet extends HttpServlet {
 	    	}
 	    }
         	
-	    private void listUser(HttpServletRequest request, HttpServletResponse response)
+	    private void listClient(HttpServletRequest request, HttpServletResponse response)
 	            throws SQLException, IOException, ServletException {
-	        System.out.println("listUser started: 00000000000000000000000000000000000");
+	        System.out.println("listclient started: 00000000000000000000000000000000000");
 
 	     
-	        List<user> listUser = userDAO.listAllUsers();
-	        request.setAttribute("listUser", listUser);       
+	        List<client> listClient = clientDAO.listAllClients();
+	        System.out.println("Number of clients: " + listClient.size());
+	        request.setAttribute("listclient", listClient);       
 	        RequestDispatcher dispatcher = request.getRequestDispatcher("UserList.jsp");       
 	        dispatcher.forward(request, response);
 	     
@@ -90,7 +94,7 @@ public class ControlServlet extends HttpServlet {
 	    	        
 	    private void rootPage(HttpServletRequest request, HttpServletResponse response, String view) throws ServletException, IOException, SQLException{
 	    	System.out.println("root view");
-			request.setAttribute("listUser", userDAO.listAllUsers());
+			request.setAttribute("listClient", clientDAO.listAllClients());
 	    	request.getRequestDispatcher("rootView.jsp").forward(request, response);
 	    }
 	    
@@ -105,10 +109,10 @@ public class ControlServlet extends HttpServlet {
 				 session.setAttribute("username", Email);
 				 rootPage(request, response, "");
 	    	 }
-	    	 else if(userDAO.isValid(Email, Password)) 
+	    	 else if(clientDAO.isValid(Email, Password)) 
 	    	 {
 			 	 
-			 	 currentUser = Email;
+			 	 currentClient = Email;
 				 System.out.println("Login Successful! Redirecting");
 				 request.getRequestDispatcher("activitypage.jsp").forward(request, response);
 			 			 			 			 
@@ -135,14 +139,14 @@ public class ControlServlet extends HttpServlet {
 	   	 	String confirm = request.getParameter("confirmation");
 	   	 	
 	   	 	if (Password.equals(confirm)) {
-	   	 		if (!userDAO.checkEmail(Email)) {
+	   	 		if (!clientDAO.checkEmail(Email)) {
 		   	 		System.out.println("Registration Successful! Added to database");
-		            user users = new user(Email,FirstName, LastName, Password, address_street_num,  address_street,  address_city,  address_state,  address_zip_code, Role,PhoneNumber,CreditCardInfo);
-		   	 		userDAO.insert(users);
+		            client clients = new client(Email,FirstName, LastName, Password, address_street_num,  address_street,  address_city,  address_state,  address_zip_code, Role,PhoneNumber,CreditCardInfo);
+		   	 		clientDAO.insert(clients);
 		   	 		response.sendRedirect("login.jsp");
 	   	 		}
 		   	 	else {
-		   	 		System.out.println("Username taken, please enter new username");
+		   	 		System.out.println("clientname taken, please enter new username");
 		    		 request.setAttribute("errorOne","Registration failed: Username taken, please enter a new username.");
 		    		 request.getRequestDispatcher("register.jsp").forward(request, response);
 		   	 	}
@@ -154,7 +158,7 @@ public class ControlServlet extends HttpServlet {
 	   	 	}
 	    }    
 	    private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
-	    	currentUser = "";
+	    	currentClient = "";
         		response.sendRedirect("login.jsp");
         	}
 	

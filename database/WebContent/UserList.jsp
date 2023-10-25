@@ -8,6 +8,9 @@
     <title>All User list</title>
 </head>
 <body>
+<form action = "list">
+		
+
    <div align="center">
         <table border="1" cellpadding="5">
             <caption><h2>List of People</h2></caption>
@@ -22,19 +25,20 @@
                 <th>Credit Card Number</th>
 
             </tr>
-            <c:forEach var="user" items="${listUser}">
+            <c:forEach var="user" items="${listClient}">
                 <tr style="text-align:center">
-                    <td><c:out value="${users.Email}" /></td>
-                    <td><c:out value="${users.FirstName}" /></td>
-                    <td><c:out value="${users.LastName}" /></td>
-                    <td><c:out value= "${users.address_street_num} ${users.address_street} ${users.address_city} ${users.address_state} ${users.address_zip_code}" /></td>
-                    <td><c:out value="${users.Password}" /></td>
-                    <td><c:out value="${users.Role}" /></td>
-                    <td><c:out value="${users.PhoneNumber}"/></td>
-                    <td><c:out value="${users.CreditCardInfo}" /></td>
+                    <td><c:out value="${user.Email}" /></td>
+                    <td><c:out value="${user.FirstName}" /></td>
+                    <td><c:out value="${user.LastName}" /></td>
+                    <td><c:out value= "${user.address_street_num} ${user.address_street} ${user.address_city} ${user.address_state} ${user.address_zip_code}" /></td>
+                    <td><c:out value="${user.Password}" /></td>
+                    <td><c:out value="${user.Role}" /></td>
+                    <td><c:out value="${user.PhoneNumber}"/></td>
+                    <td><c:out value="${user.CreditCardInfo}" /></td>
                 </tr>
             </c:forEach>
         </table>
+        	</form>
     </div>   
 </body>
 </html>

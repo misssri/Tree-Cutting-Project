@@ -11,10 +11,11 @@
 
 <a href="login.jsp"target ="_self" > logout</a><br><br> 
 
-<h1>List all users</h1>
+
     <div align="center">
+    <h1>List all clients</h1>
         <table border="1" cellpadding="6">
-            <caption><h2>List of Users</h2></caption>
+            <caption><h2>List of clients</h2></caption>
             <tr>
                 <th>Email</th>
                 <th>First name</th>
@@ -25,16 +26,16 @@
                 <th>Phone number</th>
                 <th>Credit Card Number</th>
             </tr>
-            <c:forEach var="user" items="${getUser}">
+            <c:forEach var="client" items="${getClient}">
                 <tr style="text-align:center">
-                    <td>"${user.Email}" </td>
-                    <td>"${user.FirstName}"</td>
-                    <td>"${user.LastName}"</td>
-                    <td>"${user.address_street_num} ${users.address_street} ${users.address_city} ${users.address_state} ${users.address_zip_code}"</td>
-                    <td>"${user.Password}"</td>
-                    <td>"${user.Role}"</td>
-                    <td>"${user.PhoneNumber}"</td>
-                    <td>"${user.CreditcardInfo}"</td>
+                    <td>"${client.Email}" </td>
+                    <td>"${client.FirstName}"</td>
+                    <td>"${client.LastName}"</td>
+                    <td>"${client.address_street_num} ${client.address_street} ${client.address_city} ${client.address_state} ${client.address_zip_code}"</td>
+                    <td>"${client.Password}"</td>
+                    <td>"${client.Role}"</td>
+                    <td>"${client.PhoneNumber}"</td>
+                    <td>"${client.CreditcardInfo}"</td>
                  </tr>
             </c:forEach>
           </table>
