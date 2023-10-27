@@ -5,7 +5,6 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Login to Database</title>
-
        <style>
 body {
 

@@ -107,6 +107,13 @@ public class client
 	    public void setAddress_zip_code(String address_zip_code) {
 	        this.address_zip_code = address_zip_code;
 	    }
+	    
+	    public String getRole() {
+	        return Role;
+	    }
+	    public void setRole(String Role) {
+	        this.Role = Role;
+	    }
 	    public String getPhoneNumber() {
 	    	return PhoneNumber;
 	    }
@@ -118,11 +125,5 @@ public class client
 	    }
 	    public void setCreditCardInfo(String CreditCardInfo) {
 	        this.CreditCardInfo = CreditCardInfo;
-	    }
-	    public String getRole() {
-	        return Role;
-	    }
-	    public void setRole(String Role) {
-	        this.Role = Role;
 	    }
 	}

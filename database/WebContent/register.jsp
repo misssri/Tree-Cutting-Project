@@ -64,7 +64,7 @@ a {
   background-color: dodgerblue;
 }
 
-/* Set a grey background color and center the text of the "sign in" section */
+
 a {
   background-color: #f1f1f1;
   text-align: center;

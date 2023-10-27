@@ -73,7 +73,7 @@ public class clientDAO
                 throw new SQLException(e);
             }
             connect = (Connection) DriverManager
-  			      .getConnection("jdbc:mysql://127.0.0.1:3306/clientdb?allowPublicKeyRetrieval=true&useSSL=false&user=" + username + "&Password=" + Password);
+  			      .getConnection("jdbc:mysql://127.0.0.1:3306/treecutting?allowPublicKeyRetrieval=true&useSSL=false&user=" + username + "&Password=" + Password);
             System.out.println(connect);
         }
     }
@@ -81,7 +81,7 @@ public class clientDAO
     public List<client> listAllClients() throws SQLException {
         List<client> listClient = new ArrayList<client>(); 
         
-        String sql = "SELECT * FROM Client;";      
+        String sql = "SELECT * FROM Client";      
         connect_func(); 
         try {
         statement = (Statement) connect.createStatement();
@@ -99,12 +99,12 @@ public class clientDAO
             String address_zip_code = resultSet.getString("address_zip_code"); 
             String Role = resultSet.getString("Role");
             String PhoneNumber = resultSet.getString("PhoneNumber");
-            String CreditcardInfo = resultSet.getString("CreditcardInfo");
+            String CreditCardInfo = resultSet.getString("CreditCardInfo");
             
             
 
              
-            client Clients = new client(Email,FirstName, LastName, Password,  address_street_num,  address_street,  address_city,  address_state,  address_zip_code,Role, PhoneNumber, CreditcardInfo);
+            client Clients = new client(Email,FirstName, LastName, Password,  address_street_num,  address_street,  address_city,  address_state,  address_zip_code,Role, PhoneNumber, CreditCardInfo);
             listClient.add(Clients);
         }       
         
@@ -202,10 +202,10 @@ public class clientDAO
             String address_city = resultSet.getString("address_city"); 
             String address_state = resultSet.getString("address_state"); 
             String address_zip_code = resultSet.getString("address_zip_code"); 
-            String role = resultSet.getString("role");
+            String Role = resultSet.getString("Role");
             String PhoneNumber = resultSet.getString("PhoneNumber");
             String CreditcardInfo = resultSet.getString("CreditcardInfo");
-            client = new client(Email, FirstName, LastName, Password, address_street_num,  address_street,  address_city,  address_state,  address_zip_code,role,PhoneNumber,CreditcardInfo);
+            client = new client(Email, FirstName, LastName, Password, address_street_num,  address_street,  address_city,  address_state,  address_zip_code,Role,PhoneNumber,CreditcardInfo);
         }
          
         resultSet.close();

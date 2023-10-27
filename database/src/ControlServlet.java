@@ -85,7 +85,7 @@ public class ControlServlet extends HttpServlet {
 	     
 	        List<client> listClient = clientDAO.listAllClients();
 	        System.out.println("Number of clients: " + listClient.size());
-	        request.setAttribute("listclient", listClient);       
+	        request.setAttribute("listClient", listClient);       
 	        RequestDispatcher dispatcher = request.getRequestDispatcher("UserList.jsp");       
 	        dispatcher.forward(request, response);
 	     
