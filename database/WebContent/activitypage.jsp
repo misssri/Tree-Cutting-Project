@@ -9,7 +9,7 @@
 <title>Hello page</title>
 </head>
 
-<center><h1>Welcome! You have been successfully logged in</h1> </center>
+<center><h1> You have successfully placed a request in our System, Mr.David will Review and Give you a response </h1> </center>
 
  
 	<body>

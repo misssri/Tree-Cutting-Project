@@ -12,6 +12,8 @@ public class client
 	    protected String Role;
 	    protected String PhoneNumber;
 	    protected String CreditCardInfo;
+	    
+	    
 	 
 	    //constructors used
 	    public client() {
@@ -44,6 +46,7 @@ public class client
 	        this.Role = Role;
 	        this.PhoneNumber = PhoneNumber;
 	        this.CreditCardInfo = CreditCardInfo;
+	       
 	    }
 	    
 	   //getter and setter methods
@@ -126,4 +129,5 @@ public class client
 	    public void setCreditCardInfo(String CreditCardInfo) {
 	        this.CreditCardInfo = CreditCardInfo;
 	    }
+	   
 	}

@@ -1,4 +1,5 @@
 import java.io.IOException;
+import quote.*;
 import java.io.PrintWriter;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -71,6 +72,10 @@ public class ControlServlet extends HttpServlet {
                  System.out.println("The action is: list");
                  listClient(request, response);           	
                  break;
+        	 case "/qrequest":
+        		 System.out.println("The action is: QuoteRequest");
+        		 insertQuotes(request,response);
+        		 break;
 	    	}
 	    }
 	    catch(Exception ex) {
@@ -91,7 +96,7 @@ public class ControlServlet extends HttpServlet {
 	     
 	        System.out.println("listPeople finished: 111111111111111111111111111111111111");
 	    }
-	    	        
+	            
 	    private void rootPage(HttpServletRequest request, HttpServletResponse response, String view) throws ServletException, IOException, SQLException{
 	    	System.out.println("root view");
 			request.setAttribute("listClient", clientDAO.listAllClients());
@@ -114,7 +119,7 @@ public class ControlServlet extends HttpServlet {
 			 	 
 			 	 currentClient = Email;
 				 System.out.println("Login Successful! Redirecting");
-				 request.getRequestDispatcher("activitypage.jsp").forward(request, response);
+				 request.getRequestDispatcher("quoteRequest.jsp").forward(request, response);
 			 			 			 			 
 	    	 }
 	    	 else {
@@ -161,9 +166,29 @@ public class ControlServlet extends HttpServlet {
 	    	currentClient = "";
         		response.sendRedirect("login.jsp");
         	}
-	
-	    
+	    private void insertQuotes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	        String Email = request.getParameter("Email");
+	        String Size = request.getParameter("Size");
+	        String Height = request.getParameter("Height");
+	        String Location = request.getParameter("Location");
+	        String DistanceToHouse = request.getParameter("DistanceToHouse");
+	        String Note = request.getParameter("Note");
 
+	        int ClientID = clientDAO.getClientID(Email);
+
+	        if (ClientID != 0) {
+	            quote quotes = new quote(ClientID, Note, Size, Height, Location, DistanceToHouse);
+	            clientDAO.insertQuotes(quotes, ClientID);
+	            response.sendRedirect("activitypage.jsp");
+	        } else {
+	            System.out.println("Please enter a correct email");
+	            request.setAttribute("errorOne", "Request failed: invalid email");
+	        }
+	    }
+
+	   
+	
+	   
 	     
         
 	    

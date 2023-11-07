@@ -20,9 +20,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import quote.*;
 /**
  * Servlet implementation class Connect
  */
+
 @WebServlet("/clientDAO")
 public class clientDAO 
 {
@@ -30,6 +32,8 @@ public class clientDAO
 	private Connection connect = null;
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
+	private PreparedStatement preparedStatement1 = null;
+	private PreparedStatement preparedStatement2 = null;
 	private ResultSet resultSet = null;
 	
 	public clientDAO(){}
@@ -145,6 +149,58 @@ public class clientDAO
         preparedStatement.close();
     }
     
+    public void insertQuotes(quote quotes, int clientID) throws SQLException {
+        connect_func("root", "pass1234");
+
+        // Insert a record into the QuoteRequest table
+        String insertQuoteRequestSQL = "INSERT INTO QuoteRequest (ClientID, Note) VALUES (?, ?)";
+        preparedStatement1 = (PreparedStatement) connect.prepareStatement(insertQuoteRequestSQL);
+        preparedStatement1.setInt(1, clientID);
+        preparedStatement1.setString(2, quotes.getNote());
+        preparedStatement1.executeUpdate();
+
+        // After this insert, the RequestID in QuoteRequest is auto-generated
+        int lastInsertedRequestID = getLastInsertedRequestID();
+
+        // Now, insert a record into the Tree table with the corresponding RequestID
+        String insertTreeSQL = "INSERT INTO Tree (RequestID, Size, Height, Location, DistanceToHouse) VALUES (?, ?, ?, ?, ?)";
+        preparedStatement2 = (PreparedStatement) connect.prepareStatement(insertTreeSQL);
+        preparedStatement2.setInt(1, lastInsertedRequestID);
+        preparedStatement2.setString(2, quotes.getSize());
+        preparedStatement2.setString(3, quotes.getHeight());
+        preparedStatement2.setString(4, quotes.getLocation());
+        preparedStatement2.setString(5, quotes.getDistanceToHouse());
+        preparedStatement2.executeUpdate();
+
+        preparedStatement1.close();
+        preparedStatement2.close();
+    }
+
+    public int getLastInsertedRequestID() throws SQLException {
+        String sql = "SELECT LAST_INSERT_ID()";
+        PreparedStatement preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        int lastInsertID = resultSet.getInt(1);
+        preparedStatement.close();
+        return lastInsertID;
+    }
+    public int getClientID(String Email) throws SQLException {
+        int ClientID = 0; // Initialize with a default value or error code
+
+        String sql = "SELECT ClientID FROM Client WHERE Email = ?";
+        connect_func(); // Your connection setup method
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setString(1, Email);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            ClientID = resultSet.getInt("ClientID");
+        }
+
+        return ClientID;
+    }
+
     public boolean delete(String Email) throws SQLException {
         String sql = "DELETE FROM Client WHERE Email = ?";        
         connect_func();
@@ -181,6 +237,7 @@ public class clientDAO
         return rowUpdated;     
     }
     
+    
     public client getClient(String Email) throws SQLException {
     	client client = null;
         String sql = "SELECT * FROM Client WHERE Email = ?";
@@ -196,7 +253,6 @@ public class clientDAO
             String FirstName = resultSet.getString("FirstName");
             String LastName = resultSet.getString("LastName");
             String Password = resultSet.getString("Password");
-            
             String address_street_num = resultSet.getString("address_street_num"); 
             String address_street = resultSet.getString("address_street"); 
             String address_city = resultSet.getString("address_city"); 
@@ -231,6 +287,7 @@ public class clientDAO
         System.out.println(checks);
     	return checks;
     }
+    
     
     public boolean checkPassword(String Password) throws SQLException {
     	boolean checks = false;
