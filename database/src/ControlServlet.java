@@ -1,5 +1,6 @@
 import java.io.IOException;
 import quote.*;
+import response.*;
 import java.io.PrintWriter;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -75,6 +76,15 @@ public class ControlServlet extends HttpServlet {
         	 case "/qrequest":
         		 System.out.println("The action is: QuoteRequest");
         		 insertQuotes(request,response);
+        		 break;
+        	 case "/Negotiate":
+        		 System.out.println("The action is: Negotiate by David");
+        		 DavidResponseRedirect(request,response);
+        		 DavidResponseToClient(request, response);
+        		 break;
+        	 case "/dresponse":
+        		 System.out.println("The action is: Initial Response by David");
+        		 DavidResponseToClient(request,response);
         		 break;
 	    	}
 	    }
@@ -173,11 +183,12 @@ public class ControlServlet extends HttpServlet {
 	        String Location = request.getParameter("Location");
 	        String DistanceToHouse = request.getParameter("DistanceToHouse");
 	        String Note = request.getParameter("Note");
+	        Integer LatestNegotiationID = 1;
 
 	        int ClientID = clientDAO.getClientID(Email);
 
 	        if (ClientID != 0) {
-	            quote quotes = new quote(ClientID, Note, Size, Height, Location, DistanceToHouse);
+	            quote quotes = new quote(ClientID, Note, Size, Height, Location, DistanceToHouse,LatestNegotiationID);
 	            clientDAO.insertQuotes(quotes, ClientID);
 	            response.sendRedirect("activitypage.jsp");
 	        } else {
@@ -185,6 +196,34 @@ public class ControlServlet extends HttpServlet {
 	            request.setAttribute("errorOne", "Request failed: invalid email");
 	        }
 	    }
+	    private void DavidResponseRedirect(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	
+	    	System.out.println("Request ID stmt0");
+	    	String RequestIDstring = request.getParameter("RequestID");
+	    	
+	    	request.setAttribute("RequestID", RequestIDstring);
+	    	System.out.println(RequestIDstring);
+	    	request.setAttribute("RequestID", RequestIDstring);
+	    	request.getRequestDispatcher("DavidResponse.jsp").forward(request, response);
+	    	
+	    }
+	    private void DavidResponseToClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	        
+	       
+	        
+	        String RequestIDstring =  request.getParameter("RequestID");
+	        int RequestID = Integer.parseInt(RequestIDstring);
+	            String priceSuggested = request.getParameter("PriceSuggested");
+	            Double PriceSuggested = Double.parseDouble(priceSuggested);
+	            String TimeWindowSuggested = request.getParameter("TimeWindowSuggested");
+	            String Note = request.getParameter("Note");
+	            response responses = new response(RequestID, PriceSuggested, TimeWindowSuggested, Note);
+	            clientDAO.DavidInitialResponse(responses);
+	            response.sendRedirect("activitypage.jsp");
+	        
+	    }
+
+
 
 	   
 	

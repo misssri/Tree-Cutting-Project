@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>JSP List Users Records</title>
+<title>List Quotes</title>
 </head>
 <body>
     <sql:setDataSource
@@ -18,12 +18,12 @@
     />
      
     <sql:query var="listQuotes"   dataSource="${myDS}">
-        SELECT * FROM QuoteRequest q,Tree t where q.RequestID = t.RequestID ;
+        SELECT * FROM QuoteRequest q,Tree t where q.RequestID = t.RequestID and NegotiatedBy = "Client" ;
     </sql:query>
      
     <div align="center">
         <table border="1" cellpadding="5">
-            <caption><h2>List of users</h2></caption>
+            <caption><h2>List of All Quotes from Clients</h2></caption>
             <tr>
                 <th>RequestID</th>
                 <th>ClientID</th>
@@ -38,6 +38,7 @@
                 <th>Height</th>
                 <th>Location</th>
                 <th>DistanceToHouse</th>
+                <th>Respond</th>
             </tr>
             <c:forEach var="user" items="${listQuotes.rows}">
                 <tr>
@@ -54,6 +55,13 @@
                     <td><c:out value="${user.Height}" /></td>
                     <td><c:out value="${user.Location}" /></td>
                     <td><c:out value="${user.DistanceToHouse}" /></td>
+                    <td>
+                   <form action="Accept"><input type="submit" value="Accept"/></form></br>
+                    	<form action="Reject"><input type="submit" value="Reject"/></form></br>
+                    	<form action="Negotiate" method="post">
+                    		<input type="hidden" name="RequestID" value="${user.RequestID}">
+                    		<input type="submit" value="Negotiate"/>
+                    	</form></td>
                 </tr>
             </c:forEach>
         </table>

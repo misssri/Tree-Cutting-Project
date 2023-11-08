@@ -6,7 +6,8 @@ public class quote {
     protected String Height;
     protected String Location;
     protected String DistanceToHouse;
-		    
+    protected Integer LatestNegotiationID;
+    
 		 
 		    //constructors used
 		    public quote() {
@@ -17,7 +18,7 @@ public class quote {
 		        this.Note = Note;
 		    }
 
-		    public quote(int ClientID,String Note,String Size,String Height,String Location,String DistanceToHouse) 
+		    public quote(int ClientID,String Note,String Size,String Height,String Location,String DistanceToHouse,Integer LatestNegotiationID) 
 		    {
 		    	this.ClientID = ClientID;
 		    	 this.Note = Note;
@@ -25,7 +26,11 @@ public class quote {
 			        this.Height = Height;
 			        this.Location = Location;
 			        this.DistanceToHouse = DistanceToHouse;
+			        this.LatestNegotiationID = LatestNegotiationID;
+			        
+			       
 		    }
+		    
 		    
 		    
 		    public Integer getClientID() {
@@ -68,6 +73,13 @@ public class quote {
 			    public void setDistanceToHouse(String DistanceToHouse) {
 			        this.DistanceToHouse = DistanceToHouse;
 			    }
+			    public Integer getLatestNegotiationID() {
+			        return LatestNegotiationID;
+			    }
+			    public void setLatestNegotiationID(Integer LatestNegotiationID) {
+			        this.LatestNegotiationID = LatestNegotiationID;
+			    }
+			    
 		    
 		   
 }

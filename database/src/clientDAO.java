@@ -21,6 +21,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import quote.*;
+import response.*;
 /**
  * Servlet implementation class Connect
  */
@@ -153,10 +154,11 @@ public class clientDAO
         connect_func("root", "pass1234");
 
         // Insert a record into the QuoteRequest table
-        String insertQuoteRequestSQL = "INSERT INTO QuoteRequest (ClientID, Note) VALUES (?, ?)";
+        String insertQuoteRequestSQL = "INSERT INTO QuoteRequest (ClientID, Note,LatestNegotiationID) VALUES (?, ?,?)";
         preparedStatement1 = (PreparedStatement) connect.prepareStatement(insertQuoteRequestSQL);
         preparedStatement1.setInt(1, clientID);
         preparedStatement1.setString(2, quotes.getNote());
+        preparedStatement1.setInt(3, quotes.getLatestNegotiationID());
         preparedStatement1.executeUpdate();
 
         // After this insert, the RequestID in QuoteRequest is auto-generated
@@ -199,6 +201,23 @@ public class clientDAO
         }
 
         return ClientID;
+    }
+    public void DavidInitialResponse(response responses) throws SQLException {
+        connect_func("root", "Vishnupriya2");
+
+        // Insert a record into the QuoteRequest table
+        String insertResponseSQL = "INSERT INTO QuoteNegotiation (RequestID,PriceSuggested,TimeWindowSuggested, Note, NegotiationDate) VALUES (?,?, ?, ?,NOW())";
+        preparedStatement1 = (PreparedStatement) connect.prepareStatement(insertResponseSQL);
+        preparedStatement1.setInt(1, responses.getRequestID());
+        preparedStatement1.setDouble(2, responses.getPriceSuggested());
+        preparedStatement1.setString(3, responses.getTimeWindowSuggested());
+        preparedStatement1.setString(4, responses.getNote());
+        preparedStatement1.executeUpdate();
+
+        
+
+        preparedStatement1.close();
+        
     }
 
     public boolean delete(String Email) throws SQLException {
