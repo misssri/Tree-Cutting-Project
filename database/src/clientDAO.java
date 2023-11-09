@@ -1,5 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import quote.*;
 import response.*;
+
 /**
  * Servlet implementation class Connect
  */
@@ -165,15 +167,18 @@ public class clientDAO
         int lastInsertedRequestID = getLastInsertedRequestID();
 
         // Now, insert a record into the Tree table with the corresponding RequestID
-        String insertTreeSQL = "INSERT INTO Tree (RequestID, Size, Height, Location, DistanceToHouse) VALUES (?, ?, ?, ?, ?)";
+        String insertTreeSQL = "INSERT INTO Tree (RequestID, Size, Height, Location, DistanceToHouse,Picture1, Picture2, Picture3) VALUES (?, ?, ?, ?, ?,?,?,?)";
         preparedStatement2 = (PreparedStatement) connect.prepareStatement(insertTreeSQL);
         preparedStatement2.setInt(1, lastInsertedRequestID);
         preparedStatement2.setString(2, quotes.getSize());
         preparedStatement2.setString(3, quotes.getHeight());
         preparedStatement2.setString(4, quotes.getLocation());
         preparedStatement2.setString(5, quotes.getDistanceToHouse());
+        preparedStatement2.setBytes(6, quotes.getPicture1());
+        preparedStatement2.setBytes(7, quotes.getPicture2());
+        preparedStatement2.setBytes(8, quotes.getPicture3());
         preparedStatement2.executeUpdate();
-
+        
         preparedStatement1.close();
         preparedStatement2.close();
     }
@@ -206,7 +211,7 @@ public class clientDAO
         connect_func("root", "Vishnupriya2");
 
         // Insert a record into the QuoteRequest table
-        String insertResponseSQL = "INSERT INTO QuoteNegotiation (RequestID,PriceSuggested,TimeWindowSuggested, Note, NegotiationDate) VALUES (?,?, ?, ?,NOW())";
+        String insertResponseSQL = "INSERT INTO QuoteNegotiation (RequestID,PriceSuggested,TimeWindowSuggested, Note, NegotiationDate,NegotiatedBy) VALUES (?,?, ?, ?,NOW(),'David')";
         preparedStatement1 = (PreparedStatement) connect.prepareStatement(insertResponseSQL);
         preparedStatement1.setInt(1, responses.getRequestID());
         preparedStatement1.setDouble(2, responses.getPriceSuggested());
@@ -219,6 +224,69 @@ public class clientDAO
         preparedStatement1.close();
         
     }
+    public void ClientResponse(response responses) throws SQLException {
+        connect_func("root", "Vishnupriya2");
+
+        // Insert a record into the QuoteRequest table
+        String insertResponseSQL = "INSERT INTO QuoteNegotiation (RequestID,PriceSuggested,TimeWindowSuggested, Note, NegotiationDate,NegotiatedBy) VALUES (?,?, ?, ?,NOW(),'Client')";
+        preparedStatement1 = (PreparedStatement) connect.prepareStatement(insertResponseSQL);
+        preparedStatement1.setInt(1, responses.getRequestID());
+        preparedStatement1.setDouble(2, responses.getPriceSuggested());
+        preparedStatement1.setString(3, responses.getTimeWindowSuggested());
+        preparedStatement1.setString(4, responses.getNote());
+        preparedStatement1.executeUpdate();
+
+        
+
+        preparedStatement1.close();
+        
+    }
+    public boolean DavidAResponse(int RequestID) throws SQLException {
+    	String sql = "update QuoteRequest set Status='Accepted' where RequestID = ?";
+        connect_func();
+
+        preparedStatement =(PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setInt(1, RequestID);
+
+        boolean rowUpdated = preparedStatement.executeUpdate() > 0;
+        preparedStatement.close();
+        return rowUpdated;   
+    }
+    public boolean DavidRResponse(int RequestID) throws SQLException {
+    	String sql = "update QuoteRequest set Status='Rejected' where RequestID = ?";
+        connect_func();
+
+        preparedStatement =(PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setInt(1, RequestID);
+
+        boolean rowUpdated = preparedStatement.executeUpdate() > 0;
+        preparedStatement.close();
+        return rowUpdated;   
+    }
+    public boolean ClientAResponse(int RequestID) throws SQLException {
+    	String sql = "update QuoteRequest set Status='Accepted' where RequestID = ?";
+        connect_func();
+
+        preparedStatement =(PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setInt(1, RequestID);
+
+        boolean rowUpdated = preparedStatement.executeUpdate() > 0;
+        preparedStatement.close();
+        return rowUpdated;   
+    }
+    public boolean ClientRResponse(int RequestID) throws SQLException {
+    	String sql = "update QuoteRequest set Status='Rejected' where RequestID = ?";
+        connect_func();
+
+        preparedStatement =(PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setInt(1, RequestID);
+
+        boolean rowUpdated = preparedStatement.executeUpdate() > 0;
+        preparedStatement.close();
+        return rowUpdated;   
+    }
+   
+    
 
     public boolean delete(String Email) throws SQLException {
         String sql = "DELETE FROM Client WHERE Email = ?";        

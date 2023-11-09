@@ -4,6 +4,52 @@
 <html>
 <head><title>Raise a Quote Request</title>
     <style>
+    body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.bg-image {
+  /* The image used */
+  background-image: url("https://t4.ftcdn.net/jpg/03/52/73/59/360_F_352735994_4FpchPEOdipty9TvI4WWjjI1xgJdB5m6.jpg");
+  
+  /* Add the blur effect */
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  
+  /* Full height */
+  height: 100%; 
+  
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+
+  
+}
+
+/* Position text in the middle of the page/image */
+.bg-text {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
+}
 body {
 
   font-family: Arial, Helvetica, sans-serif;
@@ -74,11 +120,14 @@ a {
  
 
 <body>
+<div class="bg-image"></div>
+<div class="bg-text">
+<h2>Raise a Request To Cut Tree</h2>
 	<div align="center">
-	<h1>Raise a Request for Tree Care</h1>
+	
 		<p> ${errorOne } </p>
 		<p> ${errorTwo } </p>
-		<form action="qrequest">
+		<form action="qrequest" method="post" enctype="multipart/form-data">
 			<table border="1" cellpadding="5">
 				<tr>
 					<th>Email Address: </th>
@@ -107,11 +156,33 @@ a {
 					</td>
 				
 				</tr>
-				<tr>
+				
 				<tr>
 					<th>Tree Distance to House: </th>
 					<td align="center" colspan="3">
 						<input type="text" name="DistanceToHouse" size="45" value="Distance" onfocus="this.value=''">
+					</td>
+	
+				</tr>
+				<tr>
+					<th>Picture 1: </th>
+					<td align="center" colspan="3">
+						<input type="file" name="Picture1" accept="image/* onfocus="this.value=''">
+					</td>
+	
+				</tr>
+				<tr>
+					<th>Picture 2: </th>
+					<td align="center" colspan="3">
+						<input type="file" name="Picture2" accept="image/* onfocus="this.value=''">
+					</td>
+	
+				</tr>
+				<tr>
+					<th>Picture 3: </th>
+					<td align="center" colspan="3">
+						<input type="file" name="Picture3" accept="image/* onfocus="this.value=''">
+						
 					</td>
 	
 				</tr>
@@ -123,13 +194,14 @@ a {
 	
 				</tr>
 				
+				
 				<tr>
 					<td align="center" colspan="5">
 						<input type="submit" value="Request"/>
 					</td>
 				</tr>
-			</table>
-			<a href="login.jsp" target="_self">Return to Login Page</a>
+			</table></br>
+			<a href="ClientDashboard.jsp" target="_self">Return to Home</a>
 		</form>
-	</div>
+	</div></div>
 </body>

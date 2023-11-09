@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Hello page</title>
+<title>Thank you page</title>
 </head>
 
 <center><h1> You have successfully placed a request in our System, Mr.David will Review and Give you a response </h1> </center>
@@ -14,8 +14,8 @@
  
 	<body>
 	 <center>
-		 <a href="login.jsp"target ="_self" > logout</a><br><br> 
-		 <p> You can place orders here to maintain your trees</p>
+		 <a href="ClientDashboard.jsp"target ="_self" >Back to Home</a><br><br> 
+		 <p> </p>
 		 </center>
 	</body>
 </html>

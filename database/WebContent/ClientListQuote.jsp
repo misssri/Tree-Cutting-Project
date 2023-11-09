@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>List Quotes</title>
 <style>
-   body, html {
+body, html {
   height: 100%;
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -28,15 +28,12 @@
   -webkit-filter: blur(8px);
   
   /* Full height */
-  height: 200%; 
+  height: 100%; 
   
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-attachment: fixed;
-
-  
 }
 
 /* Position text in the middle of the page/image */
@@ -47,11 +44,11 @@
   font-weight: bold;
   border: 3px solid #f1f1f1;
   position: absolute;
-  top: 110%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  width: 90%;
+  width: 80%;
   padding: 20px;
   text-align: center;
 }
@@ -59,7 +56,6 @@ body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
-
 
 .topnav {
   overflow: hidden;
@@ -84,10 +80,17 @@ body {
   background-color: #04AA6D;
   color: white;
 }
+.topnav a.split {
+  float: right;
+  background-color: #04AA6D;
+  color: white;
+}
 
 </style>
 </head>
 <body>
+
+
     <sql:setDataSource
         var="myDS"
         driver="com.mysql.jdbc.Driver"
@@ -95,57 +98,42 @@ body {
         user="root" password="Vishnupriya2"
     />
      
-    <sql:query var="listQuotes"   dataSource="${myDS}">
-        SELECT * FROM QuoteRequest q,Tree t where q.RequestID = t.RequestID;
+    <sql:query var="listClientQuotes"   dataSource="${myDS}">
+        SELECT q.* FROM QuoteNegotiation q, QuoteRequest r WHERE q.NegotiatedBY = "David" and q.RequestID = r.RequestID and r.ClientID = ${ClientID};
     </sql:query>
-     <div class="topnav">
-<a class="active" href="DavidDashboard.jsp">Home</a>
-  <a href="ListQuote.jsp">Show Initial Quotes</a>
-  <a href="ListNegotiations.jsp">Respond to Negotiations</a>
- <a href="login.jsp" class="split">Logout</a>
+    <div class="topnav">
+<a class="active" href="ClientDashboard.jsp">Home</a>
+  <a href="quoteRequest.jsp">Raise a Request</a>
+  <a href="#About" >About</a>
+   <a href="login.jsp" class="split">Logout</a>
 			</div>
-			<div class="bg-image"></div>
+     <div class="bg-image"></div>
+
 <div class="bg-text">
     <div align="center">
+   
         <table border="1" cellpadding="5">
             <caption><h2>List of All Quotes from Clients</h2></caption>
             <tr>
-                <th>RequestID</th>
-                <th>ClientID</th>
+            	<th>RequestID</th>
+            	<th>NegotiationID</th>
+                <th>PriceSuggested</th>
+                <th>TimeWindowSuggested</th>
                 <th>Note</th>
-                <th>Status</th>
-                <th>LatestNegotiationID</th>
-                <th>TreeID</th>
-                <th>Picture1</th>
-                <th>Picture2</th>
-                <th>Picture3</th>
-                <th>Size</th>
-                <th>Height</th>
-                <th>Location</th>
-                <th>DistanceToHouse</th>
-                <th>Respond</th>
+                
             </tr>
-            <c:forEach var="user" items="${listQuotes.rows}">
+            <c:forEach var="user" items="${listClientQuotes.rows}">
                 <tr>
-                    <td><c:out value="${user.RequestID}" /></td>
-                    <td><c:out value="${user.ClientID}" /></td>
+                	<td><c:out value="${user.RequestID}" /></td>
+                	<td><c:out value="${user.NegotiationID}" /></td>
+                    <td><c:out value="${user.PriceSuggested}" /></td>
+                    <td><c:out value="${user.TimeWindowSuggested}" /></td>
                     <td><c:out value="${user.Note}" /></td>
-                    <td><c:out value="${user.Status}" /></td>
-                    <td><c:out value="${user.LatestNegotiationID}" /></td>
-                    <td><c:out value="${user.TreeID}" /></td>
-                    <td><img src="data:image/jpeg;base64,${ImageUtil.encodeImage(user.Picture1)}" alt="Picture1"></td>
-                    <td><img src="data:image/jpeg;base64,${ImageUtil.encodeImage(user.Picture2)}" alt="Picture2"></td>
-                    <td><img src="data:image/jpeg;base64,${ImageUtil.encodeImage(user.Picture3)}" alt="Picture3"></td>
-                    <td><c:out value="${user.Size}" /></td>
-                    <td><c:out value="${user.Height}" /></td>
-                    <td><c:out value="${user.Location}" /></td>
-                    <td><c:out value="${user.DistanceToHouse}" /></td>
-                    <td>
-                   <form action="dAccept"><input type="submit" value="Accept"/>
+                   <td> <form action="cAccept"><input type="submit" value="Accept"/>
                    <input type="hidden" name="RequestID" value="${user.RequestID}"></form></br>
-                    	<form action="dReject"><input type="submit" value="Reject"/>
+                    	<form action="cReject"><input type="submit" value="Reject"/>
                     	<input type="hidden" name="RequestID" value="${user.RequestID}"></form></br>
-                    	<form action="Negotiate" method="post">
+                    	<form action="cNegotiate" method="post">
                     		<input type="hidden" name="RequestID" value="${user.RequestID}">
                     		<input type="submit" value="Negotiate"/>
                     	</form></td>

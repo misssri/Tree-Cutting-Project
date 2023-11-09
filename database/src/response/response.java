@@ -3,6 +3,7 @@ package response;
 public class response {
 	protected int RequestID;
 	protected String Note;
+	
     protected String TimeWindowSuggested;
     protected Double PriceSuggested;
     public response() {
@@ -18,6 +19,7 @@ public class response {
 	        this.Note = Note;
 	        this.PriceSuggested = PriceSuggested;
 	        this.TimeWindowSuggested = TimeWindowSuggested;
+	        
 	       
     }
 	public Integer getRequestID() {
@@ -44,5 +46,6 @@ public class response {
     public void setTimeWindowSuggested(String TimeWindowSuggested) {
         this.TimeWindowSuggested = TimeWindowSuggested;
     }
+   
 
 }

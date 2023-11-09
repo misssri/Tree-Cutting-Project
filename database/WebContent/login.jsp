@@ -6,6 +6,49 @@
 <meta charset="ISO-8859-1">
 <title>Login to Database</title>
        <style>
+       body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.bg-image {
+  /* The image used */
+  background-image: url("https://t4.ftcdn.net/jpg/03/52/73/59/360_F_352735994_4FpchPEOdipty9TvI4WWjjI1xgJdB5m6.jpg");
+  
+  /* Add the blur effect */
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  
+  /* Full height */
+  height: 100%; 
+  
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Position text in the middle of the page/image */
+.bg-text {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
+}
 body {
 
   font-family: Arial, Helvetica, sans-serif;
@@ -62,18 +105,20 @@ input[type="submit"] {
 
 /* Add a blue text color to links */
 a {
-  background-color: dodgerblue;
+  
 }
 
 /* Set a grey background color and center the text of the "sign in" section */
 a {
-  background-color: #f1f1f1;
+  background-color: #ffffff;
   text-align: center;
 }
     </style>
 
 </head>
 <body>
+<div class="bg-image"></div>
+<div class="bg-text">
  <center>	<h1> Welcome to David's Tree Care Login page </h1> </center>
 	<div align="center">
 		<p> ${loginFailedStr} </p>
@@ -96,9 +141,9 @@ a {
 						<input type="submit" value="Login"/>
 					</td>
 				</tr>
-			</table>
+			</table></br>
 			<a href="register.jsp" target="_self">Register Here</a>
 	</hr>	</form>
-	</div>></hr>
+	</div></hr></div>
 </body>
 </html>

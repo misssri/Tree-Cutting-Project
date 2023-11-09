@@ -4,54 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Respond to Request Made by Client</title>
+<title>Respond to David</title>
 <style>
-    body, html {
-  height: 100%;
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-.bg-image {
-  /* The image used */
-  background-image: url("https://t4.ftcdn.net/jpg/03/52/73/59/360_F_352735994_4FpchPEOdipty9TvI4WWjjI1xgJdB5m6.jpg");
-  
-  /* Add the blur effect */
-  filter: blur(8px);
-  -webkit-filter: blur(8px);
-  
-  /* Full height */
-  height: 100%; 
-  
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-
-  
-}
-
-/* Position text in the middle of the page/image */
-.bg-text {
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
-  color: white;
-  font-weight: bold;
-  border: 3px solid #f1f1f1;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  width: 80%;
-  padding: 20px;
-  text-align: center;
-}
 body {
 
   font-family: Arial, Helvetica, sans-serif;
@@ -120,15 +74,12 @@ a {
     </style>
 </head>
 <body>
-<div class="bg-image"></div>
-<div class="bg-text">
-<h2>Respond to Client Request to Cut Tree</h2>
 <div align="center">
-	
+	<h1>Respond to David Quote</h1>
 		<p> ${errorOne } </p>
 		<p> ${errorTwo } </p>
-		<form action="dresponse" method="post">
-		<p>For Customer Request ID: ${RequestID}</p>
+		<form action="cresponse" method="post">
+		<p>For Request ID: ${RequestID}</p>
 			<table border="1" cellpadding="5">
 				<tr>
 					<th>Price Suggested: </th>
@@ -160,8 +111,8 @@ a {
 					</td>
 				</tr>
 			</table></br>
-			<a href="ListQuote.jsp" target="_self">All Client Quotes</a>
+			<a href="ClientDashboard.jsp" target="_self">Back</a>
 		</form>
-	</div></div>
+	</div>
 </body>
 </html>
