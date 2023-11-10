@@ -3,7 +3,7 @@ package response;
 public class response {
 	protected int RequestID;
 	protected String Note;
-	
+	//protected int NegotiationID;
     protected String TimeWindowSuggested;
     protected Double PriceSuggested;
     public response() {
@@ -20,7 +20,7 @@ public class response {
 	        this.PriceSuggested = PriceSuggested;
 	        this.TimeWindowSuggested = TimeWindowSuggested;
 	        
-	       
+	        //this.NegotiationID = NegotiationID;
     }
 	public Integer getRequestID() {
         return RequestID;
@@ -46,6 +46,11 @@ public class response {
     public void setTimeWindowSuggested(String TimeWindowSuggested) {
         this.TimeWindowSuggested = TimeWindowSuggested;
     }
-   
+   // public Integer getNegotiationID() {
+     //   return NegotiationID;
+    //}
+    //public void setNegotiationID(Integer NegotiationID) {
+      //  this.NegotiationID = NegotiationID;
+    //}
 
 }

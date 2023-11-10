@@ -105,13 +105,13 @@ body {
 FROM QuoteRequest q
 JOIN Tree t ON q.RequestID = t.RequestID
 JOIN Client c ON q.ClientID = c.ClientID
-WHERE q.Status = 'open' AND q.LatestNegotiationID = 0;
+WHERE q.Status <> 'open';
  </sql:query>
      <div class="topnav">
 <a class="active" href="DavidDashboard.jsp">Home</a>
   <a href="ListQuote.jsp">Show Initial Requests</a>
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
-  <a href="dotherquotes.jsp">All Quotes</a>
+   <a href="dotherquotes.jsp">All Quotes</a>
  <a href="login.jsp" class="split">Logout</a>
 			</div>
 			<div class="bg-image"></div>
@@ -120,7 +120,7 @@ WHERE q.Status = 'open' AND q.LatestNegotiationID = 0;
         <table border="1" cellpadding="5">
             <caption><h2>List of All Quotes from Clients</h2></caption>
             <tr>
-            <th>S.No</th>
+                <th>S.No</th>
                 <th>Client Name</th>
                 <th>Note</th>
                 <th>Status</th>
@@ -132,13 +132,13 @@ WHERE q.Status = 'open' AND q.LatestNegotiationID = 0;
                 <th>Height</th>
                 <th>Location</th>
                 <th>DistanceToHouse</th>
-                <th>Respond</th>
+                
             </tr>
             <c:forEach var="user" items="${listQuotes.rows}">
                 <tr>
                 <td><%= serialNumber %></td>
-                    <td><c:out value="${user.FirstName}" /> <c:out value="${user.LastName}" /></td>
                     
+                    <td><c:out value="${user.FirstName}" /> <c:out value="${user.LastName}" /></td>
                     <td><c:out value="${user.Note}" /></td>
                     <td><c:out value="${user.Status}" /></td>
                     
@@ -149,18 +149,8 @@ WHERE q.Status = 'open' AND q.LatestNegotiationID = 0;
                     <td><c:out value="${user.Height}" /></td>
                     <td><c:out value="${user.Location}" /></td>
                     <td><c:out value="${user.DistanceToHouse}" /></td>
-                    <td>
-                   <form action="dAccept"><input type="submit" value="Accept"/>
-            
-                   <input type="hidden" name="RequestID" value="${user.RequestID}"></form></br>
-                    	<form action="dReject"><input type="submit" value="Reject"/>
-                    	
-                    	<input type="hidden" name="RequestID" value="${user.RequestID}"></form></br>
-                    	<form action="Negotiate" method="post">
-                    	
-                    		<input type="hidden" name="RequestID" value="${user.RequestID}">
-                    		<input type="submit" value="Negotiate"/>
-                    	</form></td>
+                    
+                   
                 </tr>
                 <% serialNumber++; %>
             </c:forEach>

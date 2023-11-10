@@ -37,6 +37,7 @@ public class clientDAO
 	private PreparedStatement preparedStatement = null;
 	private PreparedStatement preparedStatement1 = null;
 	private PreparedStatement preparedStatement2 = null;
+	private PreparedStatement preparedStatement3 = null;
 	private ResultSet resultSet = null;
 	
 	public clientDAO(){}
@@ -209,14 +210,71 @@ public class clientDAO
     }
     public void DavidInitialResponse(response responses) throws SQLException {
         connect_func("root", "Vishnupriya2");
+        String selectNegotiationIDSQL = "SELECT LatestNegotiationID FROM QuoteRequest WHERE RequestID = ?";
+        preparedStatement2 = (PreparedStatement) connect.prepareStatement(selectNegotiationIDSQL);
+        preparedStatement2.setInt(1, responses.getRequestID());
+        resultSet = preparedStatement2.executeQuery();
+
+        int currentNegotiationID = 0;
+
+        // Check if a record is found
+        if (resultSet.next()) {
+            currentNegotiationID = resultSet.getInt("LatestNegotiationID");
+        }
+
+        // Increment the current NegotiationID
+        int newNegotiationID = currentNegotiationID + 1;
+
+        // Update the LatestNegotiation column in the QuoteRequest table
+        String updateLatestNegotiationSQL = "UPDATE QuoteRequest SET LatestNegotiationID = ? WHERE RequestID = ?";
+        preparedStatement3 = (PreparedStatement) connect.prepareStatement(updateLatestNegotiationSQL);
+        preparedStatement3.setInt(1, newNegotiationID);
+        preparedStatement3.setInt(2, responses.getRequestID());
+        preparedStatement3.executeUpdate();
 
         // Insert a record into the QuoteRequest table
-        String insertResponseSQL = "INSERT INTO QuoteNegotiation (RequestID,PriceSuggested,TimeWindowSuggested, Note, NegotiationDate,NegotiatedBy) VALUES (?,?, ?, ?,NOW(),'David')";
+        String insertResponseSQL = "INSERT INTO QuoteNegotiation (RequestID,PriceSuggested,TimeWindowSuggested, Note, NegotiationDate,NegotiatedBy,NegotiationID) VALUES (?,?, ?, ?,NOW(),'David',1)";
         preparedStatement1 = (PreparedStatement) connect.prepareStatement(insertResponseSQL);
         preparedStatement1.setInt(1, responses.getRequestID());
         preparedStatement1.setDouble(2, responses.getPriceSuggested());
         preparedStatement1.setString(3, responses.getTimeWindowSuggested());
         preparedStatement1.setString(4, responses.getNote());
+        //preparedStatement1.setInt(6, responses.getNegotiationID());
+        preparedStatement1.executeUpdate();
+
+        
+
+        preparedStatement1.close();
+        
+    }
+    public void DavidResponse(response responses) throws SQLException {
+        connect_func("root", "Vishnupriya2");
+        String selectLastNegotiationIDSQL = "SELECT MAX(NegotiationID) AS LastNegotiationID FROM QuoteNegotiation WHERE RequestID = ?";
+        preparedStatement2 = (PreparedStatement) connect.prepareStatement(selectLastNegotiationIDSQL);
+        preparedStatement2.setInt(1, responses.getRequestID());
+        resultSet = preparedStatement2.executeQuery();
+
+        int lastNegotiationID = 0;
+
+        // Check if a record is found
+        if (resultSet.next()) {
+            lastNegotiationID = resultSet.getInt("LastNegotiationID");
+        }
+
+        // Increment the last NegotiationID
+        int newNegotiationID = lastNegotiationID + 1;
+        
+        
+        
+        // Insert a record into the QuoteRequest table
+        String insertResponseSQL = "INSERT INTO QuoteNegotiation (RequestID,PriceSuggested,TimeWindowSuggested, Note, NegotiationDate,NegotiatedBy,NegotiationID) VALUES (?,?, ?, ?,NOW(),'David',?)";
+        preparedStatement1 = (PreparedStatement) connect.prepareStatement(insertResponseSQL);
+        preparedStatement1.setInt(1, responses.getRequestID());
+        preparedStatement1.setDouble(2, responses.getPriceSuggested());
+        preparedStatement1.setString(3, responses.getTimeWindowSuggested());
+        preparedStatement1.setString(4, responses.getNote());
+        preparedStatement1.setInt(7, newNegotiationID); 
+        
         preparedStatement1.executeUpdate();
 
         
@@ -226,23 +284,40 @@ public class clientDAO
     }
     public void ClientResponse(response responses) throws SQLException {
         connect_func("root", "Vishnupriya2");
+        String selectLastNegotiationIDSQL = "SELECT MAX(NegotiationID) AS LastNegotiationID FROM QuoteNegotiation WHERE RequestID = ?";
+        preparedStatement2 = (PreparedStatement) connect.prepareStatement(selectLastNegotiationIDSQL);
+        preparedStatement2.setInt(1, responses.getRequestID());
+        resultSet = preparedStatement2.executeQuery();
 
+        int lastNegotiationID = 0;
+
+        // Check if a record is found
+        if (resultSet.next()) {
+            lastNegotiationID = resultSet.getInt("LastNegotiationID");
+        }
+
+        // Increment the last NegotiationID
+        int newNegotiationID = lastNegotiationID + 1;
+        
         // Insert a record into the QuoteRequest table
-        String insertResponseSQL = "INSERT INTO QuoteNegotiation (RequestID,PriceSuggested,TimeWindowSuggested, Note, NegotiationDate,NegotiatedBy) VALUES (?,?, ?, ?,NOW(),'Client')";
+        String insertResponseSQL = "INSERT INTO QuoteNegotiation (RequestID,PriceSuggested,TimeWindowSuggested, Note, NegotiationID,NegotiationDate,NegotiatedBy) VALUES (?,?, ?, ?,?,NOW(),'Client')";
         preparedStatement1 = (PreparedStatement) connect.prepareStatement(insertResponseSQL);
         preparedStatement1.setInt(1, responses.getRequestID());
         preparedStatement1.setDouble(2, responses.getPriceSuggested());
         preparedStatement1.setString(3, responses.getTimeWindowSuggested());
         preparedStatement1.setString(4, responses.getNote());
+        preparedStatement1.setInt(5, newNegotiationID);
         preparedStatement1.executeUpdate();
 
         
 
         preparedStatement1.close();
+        preparedStatement2.close();
+        resultSet.close();
         
     }
     public boolean DavidAResponse(int RequestID) throws SQLException {
-    	String sql = "update QuoteRequest set Status='Accepted' where RequestID = ?";
+    	String sql = "update QuoteRequest set Status='accepted' where RequestID = ?";
         connect_func();
 
         preparedStatement =(PreparedStatement) connect.prepareStatement(sql);
@@ -253,7 +328,7 @@ public class clientDAO
         return rowUpdated;   
     }
     public boolean DavidRResponse(int RequestID) throws SQLException {
-    	String sql = "update QuoteRequest set Status='Rejected' where RequestID = ?";
+    	String sql = "update QuoteRequest set Status='rejected' where RequestID = ?";
         connect_func();
 
         preparedStatement =(PreparedStatement) connect.prepareStatement(sql);
@@ -264,7 +339,7 @@ public class clientDAO
         return rowUpdated;   
     }
     public boolean ClientAResponse(int RequestID) throws SQLException {
-    	String sql = "update QuoteRequest set Status='Accepted' where RequestID = ?";
+    	String sql = "update QuoteRequest set Status='accepted' where RequestID = ?";
         connect_func();
 
         preparedStatement =(PreparedStatement) connect.prepareStatement(sql);
@@ -275,7 +350,7 @@ public class clientDAO
         return rowUpdated;   
     }
     public boolean ClientRResponse(int RequestID) throws SQLException {
-    	String sql = "update QuoteRequest set Status='Rejected' where RequestID = ?";
+    	String sql = "update QuoteRequest set Status='rejected' where RequestID = ?";
         connect_func();
 
         preparedStatement =(PreparedStatement) connect.prepareStatement(sql);
@@ -450,7 +525,7 @@ public class clientDAO
 					        		"RequestID INT PRIMARY KEY AUTO_INCREMENT,"+
 					        		 "    FOREIGN KEY (ClientID) REFERENCES Client(ClientID)"+");"),
 					        ("CREATE TABLE QuoteNegotiation (" +
-					        		"    NegotiationID INT PRIMARY KEY AUTO_INCREMENT," +
+					        		"    NegotiationID INT ," +
 					        		"    RequestID INT NOT NULL," +
 					        		"    PriceSuggested DECIMAL(10, 2)," +
 					        		"    TimeWindowSuggested TEXT," +
@@ -462,9 +537,9 @@ public class clientDAO
 					        		("CREATE TABLE Tree ("+
 					        		 
 					        		 "    RequestID INT NOT NULL,"+
-					        		 "    Picture1 TEXT,"+
-					        		 "    Picture2 TEXT,"+
-					        		 "    Picture3 TEXT,"+
+					        		 "    Picture1 LONGBLOB,"+
+					        		 "    Picture2 LONGBLOB,"+
+					        		 "    Picture3 LONGBLOB,"+
 					        		 "    Size DECIMAL(5,2),"+
 					        		 "    Height DECIMAL(5,2),"+
 					        		 "    Location TEXT,"+
@@ -500,49 +575,51 @@ public class clientDAO
         					};
         String[] TUPLES = {("INSERT INTO Client (Email, FirstName, LastName, Password, address_street_num, address_street, address_city, address_state, address_zip_code, Role, PhoneNumber, CreditCardInfo)"+
         			"values  ('root@gmail.com', 'Admin', 'User', 'pass1234', '1234', 'Admin St', 'Admin City', 'CA', '12345', 'Admin', '555-123-4567', '123456789012'),"+
-			    		 	"('david@gmail.com', 'David', 'Smith', 'davidPassword', '5678', 'David St', 'David City', 'NY', '54321', 'client', '555-987-6543', '987654321012')," +
-			    	 	 	"('john@gmail.com', 'John', 'Doe', 'Password1', '1234', 'Main St', 'City1', 'CA', '12345', 'client', '555-123-4567', '123456789012'),"+
-			    		 	"('jane@gmail.com', 'Jane', 'Smith', 'Password2', '5678', 'Elm St', 'City2', 'NY', '54321', 'client', '555-987-6543', '987654321012'),"+
-			    		 	"('bob@gmail.com', 'Bob', 'Johnson', 'Password3', '4321', 'Oak St', 'City3', 'TX', '98765', 'client', '555-789-4567', '789456123012'),"+
-			    		 	"('alice@gmail.com', 'Alice', 'Williams', 'Password4', '8765', 'Cedar St', 'City4', 'CA', '65432', 'client', '555-321-7890', '321789654012'),"+
-			    			"('mike@gmail.com', 'Mike', 'Brown', 'Password5', '9876', 'Birch St', 'City5', 'NY', '76543', 'client', '555-654-1239', '654123987012'),"+
-			    			"('sarah@gmail.com', 'Sarah', 'Davis', 'Password6', '6543', 'Maple St', 'City6', 'TX', '87654', 'client', '555-987-3216', '987321654012'),"+
-			    			" ('chris@gmail.com', 'Chris', 'Wilson', 'Password7', '3456', 'Pine St', 'City7', 'CA', '56789', 'client', '555-456-9873', '456987321012'),"+
-			    			"('emily@gmail.com', 'Emily', 'Jones', 'Password8', '7890', 'Fir St', 'City8', 'NY', '43210', 'client', '555-123-4569', '123456987012'),"+
-			    			"('lisa@gmail.com', 'Lisa', 'Miller', 'Password9', '2109', 'Spruce St', 'City9', 'TX', '98701', 'client', '555-987-4563', '987456321012');"),
+			    		 	"('david@gmail.com', 'David', 'Smith', 'davidpassword', '5678', 'David St', 'David City', 'NY', '54321', 'client', '555-987-6543', '987654321012')," +
+			    	 	 	"('john@gmail.com', 'John', 'Doe', 'password1', '1234', 'Main St', 'City1', 'CA', '12345', 'client', '555-123-4567', '123456789012'),"+
+			    		 	"('jane@gmail.com', 'Jane', 'Smith', 'password2', '5678', 'Elm St', 'City2', 'NY', '54321', 'client', '555-987-6543', '987654321012'),"+
+			    		 	"('bob@gmail.com', 'Bob', 'Johnson', 'password3', '4321', 'Oak St', 'City3', 'TX', '98765', 'client', '555-789-4567', '789456123012'),"+
+			    		 	"('alice@gmail.com', 'Alice', 'Williams', 'password4', '8765', 'Cedar St', 'City4', 'CA', '65432', 'client', '555-321-7890', '321789654012'),"+
+			    			"('mike@gmail.com', 'Mike', 'Brown', 'password5', '9876', 'Birch St', 'City5', 'NY', '76543', 'client', '555-654-1239', '654123987012'),"+
+			    			"('sarah@gmail.com', 'Sarah', 'Davis', 'password6', '6543', 'Maple St', 'City6', 'TX', '87654', 'client', '555-987-3216', '987321654012'),"+
+			    			" ('chris@gmail.com', 'Chris', 'Wilson', 'password7', '3456', 'Pine St', 'City7', 'CA', '56789', 'client', '555-456-9873', '456987321012'),"+
+			    			"('emily@gmail.com', 'Emily', 'Jones', 'password8', '7890', 'Fir St', 'City8', 'NY', '43210', 'client', '555-123-4569', '123456987012'),"+
+			    			"('lisa@gmail.com', 'Lisa', 'Miller', 'password9', '2109', 'Spruce St', 'City9', 'TX', '98701', 'client', '555-987-4563', '987456321012');"),
         					("INSERT INTO QuoteRequest (ClientID, Note, Status, LatestNegotiationID)"+ 
-			    			"VALUES   (1, 'Request 1', 'open', 1),"
-        							+ "  (2, 'Request 2', 'rejected', 2),"
-        							+ "  (3, 'Request 3', 'accepted', 3),"
-        							+ "  (4, 'Request 4', 'open', 4),"
-        							+ "  (5, 'Request 5', 'rejected', 5),"
-        							+ "  (6, 'Request 6', 'accepted', 6),"
-        							+ "  (7, 'Request 7', 'open', 7),"
-        							+ "  (8, 'Request 8', 'rejected', 8),"
-        							+ "  (9, 'Request 9', 'accepted', 9),"
-        							+ "  (10, 'Request 10', 'open', 10);"),
-        					("INSERT INTO QuoteNegotiation (RequestID, PriceSuggested, TimeWindowSuggested, Note, NegotiationDate, NegotiatedBy)"
-        							+ "VALUES (1, 1000.00, '10 AM - 2 PM', 'Negotiation for Request 1', '2023-10-17', 'David'),"
-        							+ "  (2, 800.00, '9 AM - 1 PM', 'Negotiation for Request 2', '2023-10-18', 'Client'),"
-        							+ "  (3, 1100.00, '11 AM - 3 PM', 'Negotiation for Request 3', '2023-10-19', 'David'),"
-        							+ "  (4, 750.00, '1 PM - 5 PM', 'Negotiation for Request 4', '2023-10-20', 'Client'),"
-        							+ "  (5, 1200.00, '12 PM - 4 PM', 'Negotiation for Request 5', '2023-10-21', 'David'),"
-        							+ "  (6, 850.00, '10 AM - 2 PM', 'Negotiation for Request 6', '2023-10-22', 'Client'),"
-        							+ "  (7, 950.00, '11 AM - 3 PM', 'Negotiation for Request 7', '2023-10-23', 'David'),"
-        							+ "  (8, 900.00, '2 PM - 6 PM', 'Negotiation for Request 8', '2023-10-24', 'Client'),"
-        							+ "  (9, 1050.00, '9 AM - 1 PM', 'Negotiation for Request 9', '2023-10-25', 'David'),"
-        							+ "  (10, 950.00, '12 PM - 4 PM', 'Negotiation for Request 10', '2023-10-26', 'Client');"),
+			    			"VALUES   (3, 'Request 1', 'open', 1),"
+        							+ "  (4, 'Request 2', 'rejected', 1),"
+        							+ "  (5, 'Request 3', 'accepted', 2),"
+        							+ "  (6, 'Request 4', 'open', 1),"
+        							+ "  (7, 'Request 5', 'rejected', 1),"
+        							+ "  (8, 'Request 6', 'accepted', 2),"
+        							+ "  (9, 'Request 7', 'open', 1),"
+        							+ "  (10, 'Request 8', 'rejected', 2),"
+        							+ "  (7, 'Request 9', 'accepted', 4),"
+        							+ "  (5, 'Request 10', 'open', 0);"),
+        					("INSERT INTO QuoteNegotiation (NegotiationID,RequestID, PriceSuggested, TimeWindowSuggested, Note, NegotiationDate, NegotiatedBy)"
+        							+ "VALUES (1,1, 1000.00, '10 AM - 2 PM', 'Negotiation for Request 1', '2023-10-17', 'David'),"
+        							+ "  (1,3, 1100.00, '11 AM - 3 PM', 'Negotiation for Request 2', '2023-10-19', 'David'),"
+        							+ "  (1,4, 750.00, '1 PM - 5 PM', 'Negotiation for Request 4', '2023-10-20', 'David'),"
+        							+ "  (1,5, 1200.00, '12 PM - 4 PM', 'Negotiation for Request 5', '2023-10-21', 'David'),"
+        							+ "  (1,6, 850.00, '10 AM - 2 PM', 'Negotiation for Request 6', '2023-10-22', 'David'),"
+        							+ "  (1,7, 950.00, '11 AM - 3 PM', 'Negotiation for Request 7', '2023-10-23', 'David'),"
+        							+ "  (1,8, 900.00, '10 AM - 2 PM', 'Negotiation for Request 8', '2023-10-23', 'David'),"
+        							+ "  (2,8, 500.00, '2 PM - 6 PM', 'Negotiation for Request 8', '2023-10-24', 'Client'),"
+        							+ "  (1,9, 1250.00, '9 AM - 1 PM', 'Negotiation for Request 9', '2023-10-25', 'David'),"
+        							+ "  (2,9, 950.00, '10 AM - 2 PM', 'Negotiation for Request 9', '2023-10-25', 'Client'),"
+        							+ "  (3,9, 1050.00, '10 AM - 2 PM', 'Negotiation for Request 9', '2023-10-25', 'David'),"
+        							+ "  (4,9, 1000.00, '10 PM - 2 PM', 'Negotiation for Request 9', '2023-10-26', 'Client');"),
         					("INSERT INTO Tree (RequestID, Picture1, Picture2, Picture3, Size, Height, Location, DistanceToHouse)"
-        							+ "VALUES(1, 'tree1.jpg', 'tree2.jpg', 'tree3.jpg', 5.5, 12.3, 'Backyard', 10.0),"
-        							+ "  (2, 'tree4.jpg', 'tree5.jpg', 'tree6.jpg', 6.0, 14.2, 'Frontyard', 8.5),"
-        							+ "  (3, 'tree7.jpg', 'tree8.jpg', 'tree9.jpg', 4.2, 10.1, 'Garden', 12.7),"
-        							+ "  (4, 'tree10.jpg', 'tree11.jpg', 'tree12.jpg', 3.7, 9.8, 'Courtyard', 15.3),"
-        							+ "  (5, 'tree13.jpg', 'tree14.jpg', 'tree15.jpg', 7.1, 16.5, 'Park', 7.2),"
-        							+ "  (6, 'tree16.jpg', 'tree17.jpg', 'tree18.jpg', 5.8, 13.7, 'Backyard', 9.8),"
-        							+ "  (7, 'tree19.jpg', 'tree20.jpg', 'tree21.jpg', 6.4, 15.6, 'Garden', 11.0),"
-        							+ "  (8, 'tree22.jpg', 'tree23.jpg', 'tree24.jpg', 4.5, 11.9, 'Frontyard', 8.0),"
-        							+ "  (9, 'tree25.jpg', 'tree26.jpg', 'tree27.jpg', 4.8, 11.2, 'Park', 14.5),"
-        							+ "  (10, 'tree28.jpg', 'tree29.jpg', 'tree30.jpg', 5.2, 13.8, 'Courtyard', 10.2);"),
+        							+ "VALUES(1, LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree1.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree2.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree3.jpeg'), 5.5, 12.3, 'Backyard', 10.0),"
+        							+ "  (2, LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree1.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree2.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree3.jpeg'), 6.0, 14.2, 'Frontyard', 8.5),"
+        							+ "  (3, LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree1.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree2.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree3.jpeg'), 4.2, 10.1, 'Garden', 12.7),"
+        							+ "  (4, LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree1.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree2.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree3.jpeg'), 3.7, 9.8, 'Courtyard', 15.3),"
+        							+ "  (5, LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree1.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree2.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree3.jpeg'), 7.1, 16.5, 'Park', 7.2),"
+        							+ "  (6, LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree1.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree2.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree3.jpeg'), 5.8, 13.7, 'Backyard', 9.8),"
+        							+ "  (7, LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree1.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree2.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree3.jpeg'), 6.4, 15.6, 'Garden', 11.0),"
+        							+ "  (8, LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree1.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree2.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree3.jpeg'), 4.5, 11.9, 'Frontyard', 8.0),"
+        							+ "  (9, LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree1.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree2.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree3.jpeg'), 4.8, 11.2, 'Park', 14.5),"
+        							+ "  (10,LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree1.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree2.jpeg'), LOAD_FILE('C:/Users/svpv2/OneDrive/Documents/DB_Images/Tree3.jpeg'), 5.2, 13.8, 'Courtyard', 10.2);"),
         					("INSERT INTO WorkOrder (RequestID, FinalPrice, TimeWindow)"
         							+ "VALUES (1, 950.00, '12 PM - 4 PM'),"
         							+ "  (2, 800.00, '10 AM - 2 PM'),"

@@ -128,7 +128,8 @@ a {
 		<p> ${errorOne } </p>
 		<p> ${errorTwo } </p>
 		<form action="dresponse" method="post">
-		<p>For Customer Request ID: ${RequestID}</p>
+		<p>For Customer Request ID and Negotiation ID: ${RequestID}</p>
+		<p>For Customer Request ID and Negotiation ID: ${NegotiationID}</p>
 			<table border="1" cellpadding="5">
 				<tr>
 					<th>Price Suggested: </th>

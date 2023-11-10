@@ -31,21 +31,22 @@
                 <th>Phone number</th>
                 <th>Credit card info</th>
             </tr>
-            <c:forEach var="client" items="${listClient}">
+            <c:forEach var="client" items="${listClients}">
                 <tr style="text-align:center">
-                    <td><c:out value="${clients.Email}" /></td>
-                    <td><c:out value="${clients.FirstName}" /></td>
-                    <td><c:out value="${clients.LastName}" /></td>
-                    <td><c:out value="${clients.Password}" /></td>
-                    <td><c:out value= "${clients.address_street_num} ${clients.address_street} ${clients.address_city} ${clients.address_state} ${clients.address_zip_code}" /></td>
-                    <td><c:out value="${clients.Role}" /></td>
-                    <td><c:out value="${clients.PhoneNumber}"/></td>
-                    <td><c:out value="${clients.CreditCardInfo}" /></td>
+                    <td><c:out value="${client.Email}" /></td>
+                    <td><c:out value="${client.FirstName}" /></td>
+                    <td><c:out value="${client.LastName}" /></td>
+                    <td><c:out value="${client.Password}" /></td>
+                    <td><c:out value= "${client.address_street_num} ${client.address_street} ${client.address_city} ${client.address_state} ${client.address_zip_code}" /></td>
+                    <td><c:out value="${client.Role}" /></td>
+                    <td><c:out value="${client.PhoneNumber}"/></td>
+                    <td><c:out value="${client.CreditCardInfo}" /></td>
                     </tr>
             </c:forEach>
         </table>
 	</div>
-	</div>
+	
+</div>
 
 </body>
 </html>

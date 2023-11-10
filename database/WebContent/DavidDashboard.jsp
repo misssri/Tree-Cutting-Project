@@ -88,8 +88,9 @@ body {
 <body>
 <div class="topnav">
 <a class="active" href="DavidDashboard.jsp">Home</a>
-  <a href="ListQuote.jsp">Show Initial Quotes</a>
+  <a href="ListQuote.jsp">Show Initial Requests</a>
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
+  <a href="dotherquotes.jsp">All Quotes</a>
    <a href="login.jsp" class="split">Logout</a>
 			</div>
 			<div class="bg-image"></div>

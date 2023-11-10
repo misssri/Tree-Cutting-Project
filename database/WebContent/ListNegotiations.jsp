@@ -91,6 +91,11 @@ body {
 </style>
 </head>
 <body>
+<%
+    
+    // Counter for serial number
+    int serialNumber = 1;
+%>
     <sql:setDataSource
         var="myDS"
         driver="com.mysql.jdbc.Driver"
@@ -99,12 +104,16 @@ body {
     />
      
     <sql:query var="listNegotiations"   dataSource="${myDS}">
-        SELECT q.* FROM QuoteNegotiation q WHERE q.NegotiatedBY = "Client";
-    </sql:query>
+        SELECT q.*, r.Status, c.FirstName, c.LastName
+FROM QuoteNegotiation q
+JOIN QuoteRequest r ON q.RequestID = r.RequestID
+JOIN Client c ON r.ClientID = c.ClientID
+WHERE q.NegotiatedBY = 'Client' AND r.Status = 'open'; </sql:query>
      <div class="topnav">
 <a class="active" href="DavidDashboard.jsp">Home</a>
-  <a href="ListQuote.jsp">Show Initial Quotes</a>
+  <a href="ListQuote.jsp">Show Initial Requests</a>
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
+    <a href="dotherquotes.jsp">All Quotes</a>
   <a href="login.jsp" class="split">Logout</a>
 			</div>
 			<div class="bg-image"></div>
@@ -114,28 +123,36 @@ body {
         <table border="1" cellpadding="5">
             <caption><h2>List of Quotes Under Negotiation</h2></caption>
             <tr>
-            	<th>RequestID</th>
+            	<th>S.No</th>
+            	<th>Client Name</th>
                 <th>PriceSuggested</th>
                 <th>TimeWindowSuggested</th>
                 <th>Note</th>
+                <th>Status</th>
                 <th>Response</th>
                 
             </tr>
             <c:forEach var="user" items="${listNegotiations.rows}">
                 <tr>
-                	<td><c:out value="${user.RequestID}" /></td>
+                	<td><%= serialNumber %></td>
+                	<td><c:out value="${user.FirstName}" /> <c:out value="${user.LastName}" /></td>
                     <td><c:out value="${user.PriceSuggested}" /></td>
                     <td><c:out value="${user.TimeWindowSuggested}" /></td>
                     <td><c:out value="${user.Note}" /></td>
+                    <td><c:out value="${user.Status}" /></td>
                    <td> <form action="dAccept"><input type="submit" value="Accept"/>
+                   
                    <input type="hidden" name="RequestID" value="${user.RequestID}"></form></br>
                     	<form action="dReject"><input type="submit" value="Reject"/>
+                    	
                     	<input type="hidden" name="RequestID" value="${user.RequestID}"></form></br>
                     	<form action="drNegotiate" method="post">
+                    	
                     		<input type="hidden" name="RequestID" value="${user.RequestID}">
                     		<input type="submit" value="Negotiate"/>
                     	</form></td>
                 </tr>
+                <% serialNumber++; %>
             </c:forEach>
         </table>
     </div></div>

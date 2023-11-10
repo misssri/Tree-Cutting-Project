@@ -94,6 +94,9 @@ public class ControlServlet extends HttpServlet {
         	 case "/clistdresponse":
         		 System.out.println("The action is: Client Wanted to see Response from David");
         		 ListResponsefromDavid(request,response);
+        	 case "/clistalldresponse":
+        		 System.out.println("The action is: Client Wanted to see all Response from David");
+        		 ListAllResponsefromDavid(request,response);
         	 case "/cNegotiate":
         		 System.out.println("The action is: Negotiate by Client");
         		 ClientResponseRedirect(request,response);
@@ -106,7 +109,7 @@ public class ControlServlet extends HttpServlet {
         	 case "/drNegotiate":
         		 System.out.println("The action is: Negotiate by David");
         		 DavidResponseRedirect(request,response);
-        		 DavidResponseToClient(request, response);
+        		 DavidRResponseToClient(request, response);
         		 break;
         	 case "/drresponse":
         		 System.out.println("The action is: Initial Response by David");
@@ -146,6 +149,19 @@ public class ControlServlet extends HttpServlet {
 	        request.setAttribute("ClientID", ClientID);
 	        
 	        request.getRequestDispatcher("ClientListQuote.jsp").forward(request, response);      
+	        
+	     
+	        System.out.println("listresponse finished: 111111111111111111111111111111111111");
+	    }
+	    private void ListAllResponsefromDavid(HttpServletRequest request, HttpServletResponse response)
+	            throws SQLException, IOException, ServletException {
+	        System.out.println("listresponse started: 00000000000000000000000000000000000"); 
+	        String ClientID =  request.getParameter("ClientID");
+	        //int ClientID = Integer.parseInt(ClientIDstring);
+	        System.out.println("Client:"+ClientID);
+	        request.setAttribute("ClientID", ClientID);
+	        
+	        request.getRequestDispatcher("cotherquotes.jsp").forward(request, response);      
 	        
 	     
 	        System.out.println("listresponse finished: 111111111111111111111111111111111111");
@@ -246,7 +262,7 @@ public class ControlServlet extends HttpServlet {
 	        Part picture2Part = request.getPart("Picture2");
 	        Part picture3Part = request.getPart("Picture3");
 	        String Note = request.getParameter("Note");
-	        Integer LatestNegotiationID = 1;
+	        Integer LatestNegotiationID = 0;
 
 	        int ClientID = clientDAO.getClientID(Email);
 
@@ -284,10 +300,13 @@ public class ControlServlet extends HttpServlet {
 	    	
 	    	System.out.println("Request ID stmt0");
 	    	String RequestIDstring = request.getParameter("RequestID");
-	    	
+	    	//String NegotiationIDstring =  request.getParameter("NegotiationID");
 	    	request.setAttribute("RequestID", RequestIDstring);
+	    	//request.setAttribute("NegotiationID", NegotiationIDstring);
 	    	System.out.println(RequestIDstring);
+	    	//System.out.println(NegotiationIDstring);
 	    	request.setAttribute("RequestID", RequestIDstring);
+	    	//request.setAttribute("NegotiationID", NegotiationIDstring);
 	    	request.getRequestDispatcher("DavidResponse.jsp").forward(request, response);
 	    	
 	    }
@@ -301,8 +320,26 @@ public class ControlServlet extends HttpServlet {
 	            Double PriceSuggested = Double.parseDouble(priceSuggested);
 	            String TimeWindowSuggested = request.getParameter("TimeWindowSuggested");
 	            String Note = request.getParameter("Note");
+	            //int NegotiationID = 1;
 	            response responses = new response(RequestID, PriceSuggested, TimeWindowSuggested, Note);
 	            clientDAO.DavidInitialResponse(responses);
+	            response.sendRedirect("dactivitypage.jsp");
+	        
+	    }
+private void DavidRResponseToClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	        
+	       
+	        
+	        String RequestIDstring =  request.getParameter("RequestID");
+	        int RequestID = Integer.parseInt(RequestIDstring);
+	        String NegotiationIDstring =  request.getParameter("NegotiationID");
+	        int NegotiationID = Integer.parseInt(NegotiationIDstring);
+	            String priceSuggested = request.getParameter("PriceSuggested");
+	            Double PriceSuggested = Double.parseDouble(priceSuggested);
+	            String TimeWindowSuggested = request.getParameter("TimeWindowSuggested");
+	            String Note = request.getParameter("Note");
+	            response responses = new response(RequestID, PriceSuggested, TimeWindowSuggested, Note);
+	            clientDAO.DavidResponse(responses);
 	            response.sendRedirect("dactivitypage.jsp");
 	        
 	    }
@@ -324,6 +361,8 @@ private void ClientRespondToDavid(HttpServletRequest request, HttpServletRespons
 	        String RequestIDstring =  request.getParameter("RequestID");
 	        System.out.println(RequestIDstring);
 	        int RequestID = Integer.parseInt(RequestIDstring);
+	        //String NegotiationIDstring =  request.getParameter("NegotiationID");
+	       // int NegotiationID = Integer.parseInt(NegotiationIDstring);
 	            String priceSuggested = request.getParameter("PriceSuggested");
 	            Double PriceSuggested = Double.parseDouble(priceSuggested);
 	            String TimeWindowSuggested = request.getParameter("TimeWindowSuggested");
@@ -355,7 +394,7 @@ private void DavidReject(HttpServletRequest request, HttpServletResponse respons
     
     int requestID = Integer.parseInt(requestIDString);
     
-    if (clientDAO.DavidAResponse(requestID)) {
+    if (clientDAO.DavidRResponse(requestID)) {
         System.out.println("Client Response Updated Successfully");
     } else {
         System.out.println("Failed to update Client Response");
@@ -369,7 +408,7 @@ private void ClientAccept(HttpServletRequest request, HttpServletResponse respon
     
     int requestID = Integer.parseInt(requestIDString);
     
-    if (clientDAO.DavidAResponse(requestID)) {
+    if (clientDAO.ClientAResponse(requestID)) {
         System.out.println("Client Response Updated Successfully");
     } else {
         System.out.println("Failed to update Client Response");
@@ -383,7 +422,7 @@ private void ClientReject(HttpServletRequest request, HttpServletResponse respon
     
     int requestID = Integer.parseInt(requestIDString);
     
-    if (clientDAO.DavidAResponse(requestID)) {
+    if (clientDAO.ClientRResponse(requestID)) {
         System.out.println("Client Response Updated Successfully");
     } else {
         System.out.println("Failed to update Client Response");
