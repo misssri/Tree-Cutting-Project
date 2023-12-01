@@ -183,6 +183,33 @@ public class clientDAO
         preparedStatement1.close();
         preparedStatement2.close();
     }
+    public void ClientPayment(int BillID, int ClientID, String CreditCardInfo) throws SQLException {
+        connect_func("root", "pass1234");
+
+        // Insert a record into the QuoteRequest table
+        String insertpay = "INSERT INTO Payment (BillID,ClientID,CreditCardInfo,PaidDate) VALUES (?, ?,?,NOW())";
+        preparedStatement1 = (PreparedStatement) connect.prepareStatement(insertpay);
+        preparedStatement1.setInt(1, BillID);
+        preparedStatement1.setInt(2, ClientID);
+        preparedStatement1.setString(3,CreditCardInfo);
+       
+        preparedStatement1.executeUpdate();
+        preparedStatement1.close();
+        
+        String sql = "update Bill set Status='accepted',PaidDate=NOW() where BillID = ?";
+        connect_func();
+        
+
+        preparedStatement2 =(PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement2.setInt(1, BillID);
+
+        boolean rowUpdated = preparedStatement2.executeUpdate() > 0;
+        preparedStatement2.close();
+        
+        
+        
+    
+    }
 
     public int getLastInsertedRequestID() throws SQLException {
         String sql = "SELECT LAST_INSERT_ID()";
@@ -316,7 +343,76 @@ public class clientDAO
         resultSet.close();
         
     }
-    public boolean DavidAResponse(int RequestID) throws SQLException {
+    public void ClientBillNegotiateResponse(int BillID,Double AmountSuggested,String Note) throws SQLException {
+        connect_func("root", "Vishnupriya2");
+        //String selectLastNegotiationIDSQL = "SELECT MAX(NegotiationID) AS LastNegotiationID FROM QuoteNegotiation WHERE RequestID = ?";
+        //preparedStatement2 = (PreparedStatement) connect.prepareStatement(selectLastNegotiationIDSQL);
+       // preparedStatement2.setInt(1, responses.getRequestID());
+        //resultSet = preparedStatement2.executeQuery();
+
+       // int lastNegotiationID = 0;
+
+        // Check if a record is found
+       // if (resultSet.next()) {
+          //  lastNegotiationID = resultSet.getInt("LastNegotiationID");
+        //}
+
+        // Increment the last NegotiationID
+       // int newNegotiationID = lastNegotiationID + 1;
+        
+        // Insert a record into the QuoteRequest table
+        String insertResponseSQL = "INSERT INTO BillNegotiation (BillID,AmountSuggested, Note, NegotiationDate,NegotiatedBy) VALUES (?,?, ?,NOW(),'Client')";
+        preparedStatement1 = (PreparedStatement) connect.prepareStatement(insertResponseSQL);
+        preparedStatement1.setInt(1,BillID);
+        preparedStatement1.setDouble(2, AmountSuggested);
+       
+        preparedStatement1.setString(3, Note);
+        
+        preparedStatement1.executeUpdate();
+
+        
+
+        preparedStatement1.close();
+       // preparedStatement2.close();
+       // resultSet.close();
+        
+    }
+    public void DavidBillNegotiateResponse(int BillID,Double AmountSuggested,String Note) throws SQLException {
+        connect_func("root", "Vishnupriya2");
+        //String selectLastNegotiationIDSQL = "SELECT MAX(NegotiationID) AS LastNegotiationID FROM QuoteNegotiation WHERE RequestID = ?";
+        //preparedStatement2 = (PreparedStatement) connect.prepareStatement(selectLastNegotiationIDSQL);
+       // preparedStatement2.setInt(1, responses.getRequestID());
+        //resultSet = preparedStatement2.executeQuery();
+
+       // int lastNegotiationID = 0;
+
+        // Check if a record is found
+       // if (resultSet.next()) {
+          //  lastNegotiationID = resultSet.getInt("LastNegotiationID");
+        //}
+
+        // Increment the last NegotiationID
+       // int newNegotiationID = lastNegotiationID + 1;
+        
+        // Insert a record into the QuoteRequest table
+        String insertResponseSQL = "INSERT INTO BillNegotiation (BillID,AmountSuggested, Note, NegotiationDate,NegotiatedBy) VALUES (?,?, ?,NOW(),'David')";
+        preparedStatement1 = (PreparedStatement) connect.prepareStatement(insertResponseSQL);
+        preparedStatement1.setInt(1,BillID);
+        preparedStatement1.setDouble(2, AmountSuggested);
+       
+        preparedStatement1.setString(3, Note);
+        
+        preparedStatement1.executeUpdate();
+
+        
+
+        preparedStatement1.close();
+       // preparedStatement2.close();
+       // resultSet.close();
+        
+    }
+    
+    public boolean DavidAResponse(int RequestID, Double FinalPrice, String TimeWindow) throws SQLException {
     	String sql = "update QuoteRequest set Status='accepted' where RequestID = ?";
         connect_func();
 
@@ -325,6 +421,30 @@ public class clientDAO
 
         boolean rowUpdated = preparedStatement.executeUpdate() > 0;
         preparedStatement.close();
+        
+        String sql1 = "INSERT INTO WorkOrder (RequestID,FinalPrice,TimeWindow) VALUES (?,?, ?)";
+        connect_func();
+        preparedStatement1 =(PreparedStatement) connect.prepareStatement(sql1);
+        preparedStatement1.setInt(1, RequestID);
+        preparedStatement1.setDouble(2, FinalPrice);
+        preparedStatement1.setString(3, TimeWindow);
+        preparedStatement1.executeUpdate();
+       
+        
+       
+        int lastInsertedOrderID = getLastInsertedRequestID();
+        Double Price=FinalPrice;
+        String status= "in progress";
+        int negid =0;
+        String sql2 = "INSERT INTO Bill (OrderID, Amount, Status, LatestNegotiationID, BillDate, DueDate) VALUES (?,?,?,?,Now(),NOW() + INTERVAL 7 DAY)";
+        preparedStatement2 = connect.prepareStatement(sql2);
+        preparedStatement2.setInt(1, lastInsertedOrderID);
+        preparedStatement2.setDouble(2, Price);
+        preparedStatement2.setString(3, status);
+        preparedStatement2.setInt(4, negid);
+        preparedStatement2.executeUpdate();
+        preparedStatement1.close();
+        preparedStatement2.close();
         return rowUpdated;   
     }
     public boolean DavidRResponse(int RequestID) throws SQLException {
@@ -338,7 +458,7 @@ public class clientDAO
         preparedStatement.close();
         return rowUpdated;   
     }
-    public boolean ClientAResponse(int RequestID) throws SQLException {
+    public boolean ClientAResponse(int RequestID, Double FinalPrice, String TimeWindow) throws SQLException {
     	String sql = "update QuoteRequest set Status='accepted' where RequestID = ?";
         connect_func();
 
@@ -347,6 +467,26 @@ public class clientDAO
 
         boolean rowUpdated = preparedStatement.executeUpdate() > 0;
         preparedStatement.close();
+        String sql1 = "INSERT INTO WorkOrder (RequestID,FinalPrice,TimeWindow) VALUES (?,?, ?)";
+        connect_func();
+        preparedStatement1 =(PreparedStatement) connect.prepareStatement(sql1);
+        preparedStatement1.setInt(1, RequestID);
+        preparedStatement1.setDouble(2, FinalPrice);
+        preparedStatement1.setString(3, TimeWindow);
+        preparedStatement1.executeUpdate();
+        int lastInsertedOrderID = getLastInsertedRequestID();
+        Double Price=FinalPrice;
+        String status= "in progress";
+        int negid =0;
+        String sql2 = "INSERT INTO Bill (OrderID, Amount, Status, LatestNegotiationID, BillDate, DueDate) VALUES (?,?,?,?,Now(),NOW() + INTERVAL 7 DAY)";
+        preparedStatement2 = connect.prepareStatement(sql2);
+        preparedStatement2.setInt(1, lastInsertedOrderID);
+        preparedStatement2.setDouble(2, Price);
+        preparedStatement2.setString(3, status);
+        preparedStatement2.setInt(4, negid);
+        preparedStatement2.executeUpdate();
+        preparedStatement1.close();
+        preparedStatement2.close();
         return rowUpdated;   
     }
     public boolean ClientRResponse(int RequestID) throws SQLException {

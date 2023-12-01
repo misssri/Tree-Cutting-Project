@@ -89,7 +89,6 @@ body {
 <div class="topnav">
 <a class="active" href="ClientDashboard.jsp">Home</a>
   <a href="quoteRequest.jsp">Raise a Request</a>
-  
    <a href="login.jsp" class="split">Logout</a>
 			</div>
 			<div class="bg-image"></div>
@@ -97,10 +96,11 @@ body {
 <div class="bg-text">
   
   <h1 style="font-size:50px">Welcome!!</h1>
- <p>Client ID: ${ClientID}</p>
+
 <form action="clistdresponse"><input type="hidden" name="ClientID" value="${ClientID}"><input type="submit"  style="font-size:20px" value="Show Responses from David"/></form></br>
 <form action="clistalldresponse"><input type="hidden" name="ClientID" value="${ClientID}"><input type="submit"  style="font-size:20px" value="Show Rejections from David"/></form></br>
-        
+<form action="cbsee"><input type="hidden" name="ClientID" value="${ClientID}"><input type="submit"  style="font-size:20px" value="Show Bills to Pay"/></form></br>
+       
 </div>
 
 			

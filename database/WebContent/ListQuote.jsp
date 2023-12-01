@@ -112,6 +112,8 @@ WHERE q.Status = 'open' AND q.LatestNegotiationID = 0;
   <a href="ListQuote.jsp">Show Initial Requests</a>
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
   <a href="dotherquotes.jsp">All Quotes</a>
+  <a href="dbilllist.jsp">View Pending Bills</a>
+  <a href="dbillnegotiate.jsp">View Bill Negotiations</a>
  <a href="login.jsp" class="split">Logout</a>
 			</div>
 			<div class="bg-image"></div>

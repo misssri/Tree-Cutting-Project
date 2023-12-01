@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>List Quotes</title>
 <style>
-body, html {
+   body, html {
   height: 100%;
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -34,6 +34,9 @@ body, html {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
+
+  
 }
 
 /* Position text in the middle of the page/image */
@@ -48,7 +51,7 @@ body, html {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  width: 80%;
+  width: 90%;
   padding: 20px;
   text-align: center;
 }
@@ -56,6 +59,7 @@ body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 
 .topnav {
   overflow: hidden;
@@ -85,11 +89,9 @@ body {
   background-color: #04AA6D;
   color: white;
 }
-
 </style>
 </head>
 <body>
-
 <%
     
     // Counter for serial number
@@ -102,50 +104,52 @@ body {
         user="root" password="Vishnupriya2"
     />
      
-    <sql:query var="listClientQuotes"   dataSource="${myDS}">
-        SELECT q.*,r.Status FROM QuoteNegotiation q, QuoteRequest r WHERE q.NegotiatedBY = "David" and q.RequestID = r.RequestID and r.ClientID = ${ClientID} ;
-    </sql:query>
-    <div class="topnav">
-<a class="active" href="ClientDashboard.jsp">Home</a>
-  <a href="quoteRequest.jsp">Raise a Request</a>
-  <a href="cotherquotes.jsp" >All Quotes</a>
-   <a href="login.jsp" class="split">Logout</a>
+    <sql:query var="listBills"   dataSource="${myDS}">
+       SELECT b.*,c.FirstName,c.LastName FROM Bill b
+JOIN WorkOrder w on b.OrderID=w.OrderID
+JOIN QuoteRequest q on w.RequestID = q.RequestID
+JOIN Client c on q.ClientID = c.ClientID
+WHERE b.Status="pending" or b.Status="in progress";
+ </sql:query>
+     <div class="topnav">
+<a class="active" href="DavidDashboard.jsp">Home</a>
+  <a href="ListQuote.jsp">Show Initial Requests</a>
+  <a href="ListNegotiations.jsp">Respond to Negotiations</a>
+  <a href="dotherquotes.jsp">All Quotes</a>
+   <a href="dbilllist.jsp">View Pending Bills</a>
+  <a href="dbillnegotiate.jsp">View Bill Negotiations</a>
+ <a href="login.jsp" class="split">Logout</a>
 			</div>
-     <div class="bg-image"></div>
-
+			<div class="bg-image"></div>
 <div class="bg-text">
     <div align="center">
-   
         <table border="1" cellpadding="5">
             <caption><h2>List of All Quotes from Clients</h2></caption>
             <tr>
-            	<th>Request Number</th>
-            	<th>PriceSuggested</th>
-                <th>TimeWindowSuggested</th>
-                <th>Note</th>
+            <th>S.No</th>
+                <th>Client Name</th>
+                <th>Amount</th>
+                <th>Bill Date</th>
+                <th>Due Date</th>
                 <th>Status</th>
                 <th>Respond</th>
             </tr>
-            <c:forEach var="user" items="${listClientQuotes.rows}">
+            <c:forEach var="user" items="${listBills.rows}">
                 <tr>
-                	<td><%= serialNumber %></td>
-                	<td><c:out value="${user.PriceSuggested}" /></td>
-                    <td><c:out value="${user.TimeWindowSuggested}" /></td>
-                    <td><c:out value="${user.Note}" /></td>
+                <td><%= serialNumber %></td>
+                    <td><c:out value="${user.FirstName}" /> <c:out value="${user.LastName}" /></td>
+                    
+                    <td><c:out value="${user.Amount}" /></td>
+                    <td><c:out value="${user.BillDate}" /></td>
+                    <td><c:out value="${user.DueDate}" /></td>
                     <td><c:out value="${user.Status}" /></td>
-                   <td> <form action="cAccept"><input type="submit" value="Accept"/>
-                  
-                   <input type="hidden" name="RequestID" value="${user.RequestID}">
-                   <input type="hidden" name="PriceSuggested" value="${user.PriceSuggested}">
-                   <input type="hidden" name="TimeWindowSuggested" value="${user.TimeWindowSuggested}">
-                   
-                   </form></br>
-                    	<form action="cReject"><input type="submit" value="Reject"/>
+                    
+                    
+                    
+                    <td>
+                           	<form action="bdNegotiate" method="post">
                     	
-                    	<input type="hidden" name="RequestID" value="${user.RequestID}"></form></br>
-                    	<form action="cNegotiate" method="post">
-                    	
-                    		<input type="hidden" name="RequestID" value="${user.RequestID}">
+                    		<input type="hidden" name="RequestID" value="${user.BillID}">
                     		<input type="submit" value="Negotiate"/>
                     	</form></td>
                 </tr>

@@ -84,7 +84,11 @@ body {
   background-color: #04AA6D;
   color: white;
 }
-
+.topnav a.split {
+  float: right;
+  background-color: #04AA6D;
+  color: white;
+}
 </style>
 </head>
 <body>
@@ -112,7 +116,10 @@ WHERE q.Status <> 'open';
   <a href="ListQuote.jsp">Show Initial Requests</a>
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
    <a href="dotherquotes.jsp">All Quotes</a>
- <a href="login.jsp" class="split">Logout</a>
+   <a href="dbilllist.jsp">View Pending Bills</a>
+  <a href="dbillneglist.jsp">View Bill Negotiations</a>
+   <a href="login.jsp" class="split">Logout</a>
+
 			</div>
 			<div class="bg-image"></div>
 <div class="bg-text">

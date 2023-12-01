@@ -89,7 +89,7 @@ body {
 </style>
 </head>
 <body>
-
+<p>client: ${ClientID}</p>
 <%
     
     // Counter for serial number
@@ -102,8 +102,12 @@ body {
         user="root" password="Vishnupriya2"
     />
      
-    <sql:query var="listClientQuotes"   dataSource="${myDS}">
-        SELECT q.*,r.Status FROM QuoteNegotiation q, QuoteRequest r WHERE q.NegotiatedBY = "David" and q.RequestID = r.RequestID and r.ClientID = ${ClientID} ;
+    <sql:query var="listClientBills"   dataSource="${myDS}">
+        SELECT * FROM Bill b
+JOIN WorkOrder w ON b.OrderID = w.OrderID
+JOIN QuoteRequest q ON w.RequestID = q.RequestID
+WHERE q.ClientID = ${ClientID} and b.Status="pending";
+             
     </sql:query>
     <div class="topnav">
 <a class="active" href="ClientDashboard.jsp">Home</a>
@@ -120,32 +124,26 @@ body {
             <caption><h2>List of All Quotes from Clients</h2></caption>
             <tr>
             	<th>Request Number</th>
-            	<th>PriceSuggested</th>
-                <th>TimeWindowSuggested</th>
-                <th>Note</th>
-                <th>Status</th>
+            	<th>Amount</th>
+                <th>BillDate</th>
+                <th>DueDate</th>
                 <th>Respond</th>
             </tr>
-            <c:forEach var="user" items="${listClientQuotes.rows}">
+            <c:forEach var="user" items="${listClientBills.rows}">
                 <tr>
                 	<td><%= serialNumber %></td>
-                	<td><c:out value="${user.PriceSuggested}" /></td>
-                    <td><c:out value="${user.TimeWindowSuggested}" /></td>
-                    <td><c:out value="${user.Note}" /></td>
-                    <td><c:out value="${user.Status}" /></td>
-                   <td> <form action="cAccept"><input type="submit" value="Accept"/>
+                	<td><c:out value="${user.Amount}" /></td>
+                    <td><c:out value="${user.BillDate}" /></td>
+                    <td><c:out value="${user.DueDate}" /></td>
+                    <td> <form action="bcpay"><input type="submit" value="Pay"/>
                   
-                   <input type="hidden" name="RequestID" value="${user.RequestID}">
-                   <input type="hidden" name="PriceSuggested" value="${user.PriceSuggested}">
-                   <input type="hidden" name="TimeWindowSuggested" value="${user.TimeWindowSuggested}">
-                   
+                   <input type="hidden" name="BillID" value="${user.BillID}">
+                   <input type="hidden" name="ClientID" value="${user.ClientID}">
                    </form></br>
-                    	<form action="cReject"><input type="submit" value="Reject"/>
                     	
-                    	<input type="hidden" name="RequestID" value="${user.RequestID}"></form></br>
-                    	<form action="cNegotiate" method="post">
+                    	<form action="cbNegotiate" method="post">
                     	
-                    		<input type="hidden" name="RequestID" value="${user.RequestID}">
+                    		<input type="hidden" name="BillID" value="${user.BillID}">
                     		<input type="submit" value="Negotiate"/>
                     	</form></td>
                 </tr>

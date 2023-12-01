@@ -82,6 +82,42 @@ body {
   background-color: #04AA6D;
   color: white;
 }
+.standard-button {
+  font-size: 16px; /* Set the font size */
+  width: 300px; /* Set the width */
+  height: 40px; /* Set the height */
+}
+.standard-button {
+  font-size: 16px;
+  padding: 10px 20px;
+  background-color: #27ae60; /* Green color */
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.standard-button:hover {
+  background-color: #219653; /* Darker green on hover */
+}
+
+.glitter{
+  font-size: 50px;
+  text-align: center;
+  position: relative;
+  color: #ffd700; /* Gold color */
+  animation: glitter-animation-gold 2s infinite;
+}
+
+@keyframes glitter-animation-gold {
+  0% { color: #ffec80; } /* Lighter gold */
+  25% { color: #ffd700; } /* Gold */
+  50% { color: #ffec80; } /* Lighter gold */
+  75% { color: #ffd700; } /* Gold */
+  100% { color: #ffec80; } /* Lighter gold */
+}
+
 
 </style>
 </head>
@@ -91,13 +127,22 @@ body {
   <a href="ListQuote.jsp">Show Initial Requests</a>
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
   <a href="dotherquotes.jsp">All Quotes</a>
+  <a href="dbilllist.jsp">View Pending Bills</a>
+  <a href="dbillneglist.jsp">View Bill Negotiations</a>
    <a href="login.jsp" class="split">Logout</a>
 			</div>
 			<div class="bg-image"></div>
-
 <div class="bg-text">
-  
-  <h1 style="font-size:50px">Welcome David!!</h1>
+  <h1 class="glitter" style="font-size:50px">Welcome David!!</h1>
+ <form action="clistdresponse"><input type="submit" class="standard-button"  style="font-size:20px" value="View Big clients"/></form></br>
+ <form action="EasyClients.jsp"><input type="submit" class="standard-button" style="font-size:20px" value="View Easy Clients"/></form></br>
+  <form action="HighestTreeCut.jsp"><input type="submit" class="standard-button" style="font-size:20px" value="View Highest Tree Cut"/></form></br>
+ <form action="HighestTreeCut.jsp"><input type="submit" class="standard-button" style="font-size:20px" value="View Prospective clients"/></form></br>
+<form action="OverdueBills.jsp"> <input type="submit" class="standard-button" style="font-size:20px" value="View Overdue bills"/></form></br>
+<form action="HighestTreeCut.jsp"> <input type="submit" class="standard-button" style="font-size:20px" value="View Bad clients"/></form></br>
+<form action="GoodClient.jsp"> <input type="submit" class="standard-button" style="font-size:20px" value="View Good Clients"/></form></br>
+ <input type="submit" class="standard-button"  style="font-size:20px" value="Show Statistics"/>
+
  
 </div>
 </body>

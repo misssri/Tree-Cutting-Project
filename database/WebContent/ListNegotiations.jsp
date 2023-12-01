@@ -114,7 +114,9 @@ WHERE q.NegotiatedBY = 'Client' AND r.Status = 'open'; </sql:query>
   <a href="ListQuote.jsp">Show Initial Requests</a>
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
     <a href="dotherquotes.jsp">All Quotes</a>
-  <a href="login.jsp" class="split">Logout</a>
+   <a href="dbilllist.jsp">View Pending Bills</a>
+  <a href="dbillnegotiate.jsp">View Bill Negotiations</a>
+ <a href="login.jsp" class="split">Logout</a>
 			</div>
 			<div class="bg-image"></div>
 <div class="bg-text">
@@ -140,7 +142,10 @@ WHERE q.NegotiatedBY = 'Client' AND r.Status = 'open'; </sql:query>
                     <td><c:out value="${user.TimeWindowSuggested}" /></td>
                     <td><c:out value="${user.Note}" /></td>
                     <td><c:out value="${user.Status}" /></td>
-                   <td> <form action="dAccept"><input type="submit" value="Accept"/>
+                   <td> <form action="dAccept"><input type="hidden" name="RequestID" value="${user.RequestID}">
+                   <input type="hidden" name="PriceSuggested" value="${user.PriceSuggested}">
+                   <input type="hidden" name="TimeWindowSuggested" value="${user.TimeWindowSuggested}">
+                   <input type="submit" value="Accept"/>
                    
                    <input type="hidden" name="RequestID" value="${user.RequestID}"></form></br>
                     	<form action="dReject"><input type="submit" value="Reject"/>
