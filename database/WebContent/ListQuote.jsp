@@ -84,6 +84,37 @@ body {
   background-color: #04AA6D;
   color: white;
 }
+.topnav a.split {
+  float: right;
+  background-color: #04AA6D;
+  color: white;
+}
+
+/* Define button colors */
+.green-button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px;
+   width: 75px; /* Set the width */
+  height: 40px;
+}
+
+.red-button {
+  background-color: #f44336; /* Red */
+  color: white;
+  padding: 10px;
+  width: 75px; /* Set the width */
+  height: 40px;
+}
+
+.blue-button {
+  background-color: #008CBA; /* Blue */
+  color: white;
+  padding: 10px;
+   width: 75px; /* Set the width */
+  height: 40px;
+}
+
 
 </style>
 </head>
@@ -113,17 +144,19 @@ WHERE q.Status = 'open' AND q.LatestNegotiationID = 0;
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
   <a href="dotherquotes.jsp">All Quotes</a>
   <a href="dbilllist.jsp">View Pending Bills</a>
-  <a href="dbillnegotiate.jsp">View Bill Negotiations</a>
- <a href="login.jsp" class="split">Logout</a>
+  <a href="dbillneglist.jsp">View Bills Under Negotiation</a>
+   <a href="login.jsp" class="split">Logout</a>
 			</div>
 			<div class="bg-image"></div>
 <div class="bg-text">
-    <div align="center">
-        <table border="1" cellpadding="5">
-            <caption><h2>List of All Quotes from Clients</h2></caption>
+<caption><h2>List of Initial Request from Clients</h2></caption>
+    <div align="center" style="height: 400px; overflow-y: scroll;">
+          <table border="1" cellpadding="5">
+            
             <tr>
             <th>S.No</th>
                 <th>Client Name</th>
+                <th>Request ID</th>
                 <th>Note</th>
                 <th>Status</th>
                 
@@ -140,7 +173,7 @@ WHERE q.Status = 'open' AND q.LatestNegotiationID = 0;
                 <tr>
                 <td><%= serialNumber %></td>
                     <td><c:out value="${user.FirstName}" /> <c:out value="${user.LastName}" /></td>
-                    
+                    <td><c:out value="${user.RequestID}" /> </td>
                     <td><c:out value="${user.Note}" /></td>
                     <td><c:out value="${user.Status}" /></td>
                     
@@ -152,21 +185,22 @@ WHERE q.Status = 'open' AND q.LatestNegotiationID = 0;
                     <td><c:out value="${user.Location}" /></td>
                     <td><c:out value="${user.DistanceToHouse}" /></td>
                     <td>
-                   <form action="dAccept"><input type="submit" value="Accept"/>
-            
-                   <input type="hidden" name="RequestID" value="${user.RequestID}"></form></br>
-                    	<form action="dReject"><input type="submit" value="Reject"/>
+                   
+                    	<form action="dReject"><input type="submit" class="red-button" value="Reject"/>
                     	
                     	<input type="hidden" name="RequestID" value="${user.RequestID}"></form></br>
                     	<form action="Negotiate" method="post">
                     	
                     		<input type="hidden" name="RequestID" value="${user.RequestID}">
-                    		<input type="submit" value="Negotiate"/>
+                    		<input type="submit" class="blue-button" value="Negotiate"/>
                     	</form></td>
                 </tr>
                 <% serialNumber++; %>
             </c:forEach>
         </table>
+                       
+
+                       
     </div></div>
 </body>
 </html>

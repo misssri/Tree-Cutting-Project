@@ -90,7 +90,7 @@ body {
 <div class="bg-image"></div>
 
 <div class="bg-text">
-<center><h1> You have successfully placed a request in our System, Mr.David will Review and Give you a response </h1> </center>
+<center><h1> Thank You! Click below to revisit the Login Page! </h1> </center>
 
  
 	<body>

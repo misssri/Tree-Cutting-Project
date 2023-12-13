@@ -115,15 +115,15 @@ WHERE b.Status = 'accepted'
   <a href="ListQuote.jsp">Show Initial Requests</a>
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
   <a href="dotherquotes.jsp">All Quotes</a>
-   <a href="dbilllist.jsp">View Pending Bills</a>
-  <a href="dbillnegotiate.jsp">View Bill Negotiations</a>
- <a href="login.jsp" class="split">Logout</a>
+  <a href="dbilllist.jsp">View Pending Bills</a>
+  <a href="dbillneglist.jsp">View Bills Under Negotiation</a>
+   <a href="login.jsp" class="split">Logout</a>
 			</div>
 			<div class="bg-image"></div>
 <div class="bg-text">
     <div align="center">
         <table border="1" cellpadding="5">
-           <h2>Clients Who Pays Early</h2>
+           <h2>Clients who Pay Early</h2>
             <tr>
             <th>S.No</th>
                 <th>Client Name</th>

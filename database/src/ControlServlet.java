@@ -85,11 +85,11 @@ public class ControlServlet extends HttpServlet {
         	 case "/Negotiate":
         		 System.out.println("The action is: Negotiate by David");
         		 DavidResponseRedirect(request,response);
-        		 DavidResponseToClient(request, response);
+        		 DavidRResponseToClient(request, response);
         		 break;
         	 case "/dresponse":
         		 System.out.println("The action is: Initial Response by David");
-        		 DavidResponseToClient(request,response);
+        		 DavidRResponseToClient(request,response);
         		 break;
         	 case "/clistdresponse":
         		 System.out.println("The action is: Client Wanted to see Response from David");
@@ -113,7 +113,7 @@ public class ControlServlet extends HttpServlet {
         		 break;
         	 case "/drresponse":
         		 System.out.println("The action is: Initial Response by David");
-        		 DavidResponseToClient(request,response);
+        		 DavidRResponseToClient(request,response);
         		 break;
         	 case "/dAccept":
         		 System.out.println("The action is:David Accept");
@@ -134,6 +134,14 @@ public class ControlServlet extends HttpServlet {
         	 case "/cbsee":
         		 System.out.println("The action is:Client want to see bills");
         		 ClientBillList(request,response);
+        		 break;
+        	 case "/cbfsee":
+        		 System.out.println("The action is:Client want to see final bills");
+        		 ClientfBillList(request,response);
+        		 break;
+        	 case "/cbnegsee":
+        		 System.out.println("The action is:Client want to see bills");
+        		 ClientBillnegList(request,response);
         		 break;
         	 case "/cbNegotiate":
         		 System.out.println("The action is: Bill Negotiate by Client");
@@ -156,9 +164,16 @@ public class ControlServlet extends HttpServlet {
         	 case "/bdNegotiate":
         		 System.out.println("The action is: Bill Negotiate by David");
         		 DavidBillRedirect(request,response);
-        		 DavidBillRespondToDavid(request, response);
+        		 
         		 break;
-        	
+        	 case "/dbillneg":
+        		 System.out.println("The action is: Bill negotiation under process");
+        		 DavidBillRespondToClient(request, response);
+        		 break;
+        	 case "/dbAccept":
+        		 System.out.println("The action is:David Accept");
+        		 DavidBillAccept(request,response);
+        		 break;
 	    	}
         	
 	    }
@@ -206,6 +221,32 @@ public class ControlServlet extends HttpServlet {
 	     
 	        System.out.println("listresponse finished: 111111111111111111111111111111111111");
 	    }
+	    private void ClientfBillList(HttpServletRequest request, HttpServletResponse response)
+	            throws SQLException, IOException, ServletException {
+	        System.out.println("listresponse started: 00000000000000000000000000000000000"); 
+	        String ClientID =  request.getParameter("ClientID");
+	        //int ClientID = Integer.parseInt(ClientIDstring);
+	        System.out.println("Client:"+ClientID);
+	        request.setAttribute("ClientID", ClientID);
+	        
+	        request.getRequestDispatcher("BillsAfterNeg.jsp").forward(request, response);      
+	        
+	     
+	        System.out.println("listresponse finished: 111111111111111111111111111111111111");
+	    }
+	    private void ClientBillnegList(HttpServletRequest request, HttpServletResponse response)
+	            throws SQLException, IOException, ServletException {
+	        System.out.println("listresponse started: 00000000000000000000000000000000000"); 
+	        String ClientID =  request.getParameter("ClientID");
+	        //int ClientID = Integer.parseInt(ClientIDstring);
+	        System.out.println("Client:"+ClientID);
+	        request.setAttribute("ClientID", ClientID);
+	        
+	        request.getRequestDispatcher("cbillneglist.jsp").forward(request, response);      
+	        
+	     
+	        System.out.println("listresponse finished: 111111111111111111111111111111111111");
+	    }
 	    private void listClient(HttpServletRequest request, HttpServletResponse response)
 	            throws SQLException, IOException, ServletException {
 	        System.out.println("listclient started: 00000000000000000000000000000000000");
@@ -223,6 +264,7 @@ public class ControlServlet extends HttpServlet {
 	    private void rootPage(HttpServletRequest request, HttpServletResponse response, String view) throws ServletException, IOException, SQLException{
 	    	System.out.println("root view");
 			request.setAttribute("listClient", clientDAO.listAllClients());
+			System.out.println("list client startes 00000000000");
 	    	request.getRequestDispatcher("rootView.jsp").forward(request, response);
 	    }
 	    
@@ -341,16 +383,17 @@ public class ControlServlet extends HttpServlet {
 	    private void ClientPay(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	       // String Email = request.getParameter("Email");
 	    	System.out.println("Entered");
-	        String CreditCardInfo = request.getParameter("CreditCardInfo");
+	       
 	        String BillIDstring= request.getParameter("BillID");
 	        System.out.println("Got BillID");
 	        int BillID = Integer.parseInt(BillIDstring);
 	        System.out.println(BillID);
 	        String ClientIDstring= request.getParameter("ClientID");
 	        int ClientID = Integer.parseInt(ClientIDstring);
+	        
 	        System.out.println(ClientID);
 	        System.out.println("Entered");
-	        clientDAO.ClientPayment(BillID,ClientID,CreditCardInfo);
+	        clientDAO.ClientPayment(BillID,ClientID);
             response.sendRedirect("activitypage.jsp");
 	        
 	    }
@@ -372,30 +415,14 @@ public class ControlServlet extends HttpServlet {
 	    	request.getRequestDispatcher("DavidResponse.jsp").forward(request, response);
 	    	
 	    }
-	    private void DavidResponseToClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-	        
-	       
-	        
-	        String RequestIDstring =  request.getParameter("RequestID");
-	        int RequestID = Integer.parseInt(RequestIDstring);
-	            String priceSuggested = request.getParameter("PriceSuggested");
-	            Double PriceSuggested = Double.parseDouble(priceSuggested);
-	            String TimeWindowSuggested = request.getParameter("TimeWindowSuggested");
-	            String Note = request.getParameter("Note");
-	            //int NegotiationID = 1;
-	            response responses = new response(RequestID, PriceSuggested, TimeWindowSuggested, Note);
-	            clientDAO.DavidInitialResponse(responses);
-	            response.sendRedirect("dactivitypage.jsp");
-	        
-	    }
+	    
 private void DavidRResponseToClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	        
 	       
 	        
 	        String RequestIDstring =  request.getParameter("RequestID");
 	        int RequestID = Integer.parseInt(RequestIDstring);
-	        String NegotiationIDstring =  request.getParameter("NegotiationID");
-	        int NegotiationID = Integer.parseInt(NegotiationIDstring);
+	        
 	            String priceSuggested = request.getParameter("PriceSuggested");
 	            Double PriceSuggested = Double.parseDouble(priceSuggested);
 	            String TimeWindowSuggested = request.getParameter("TimeWindowSuggested");
@@ -420,11 +447,11 @@ private void ClientBillRedirect(HttpServletRequest request, HttpServletResponse 
 	
 	System.out.println("Bill ID stmt0");
 	String BillIDstring = request.getParameter("BillID");
-	
+	String ClientID = request.getParameter("ClientID");
 	request.setAttribute("BillID", BillIDstring);
 	System.out.println(BillIDstring);
 	request.setAttribute("BillID", BillIDstring);
-
+	System.out.println(ClientID);
 	
 	request.getRequestDispatcher("cbillnegotiation.jsp").forward(request, response);
 	
@@ -450,12 +477,11 @@ private void ClientPayRedirect(HttpServletRequest request, HttpServletResponse r
 	request.setAttribute("BillID", BillIDstring);
 	System.out.println(BillIDstring);
 	request.setAttribute("BillID", BillIDstring);
-	System.out.println("Client ID stmt0");
+	System.out.println("Client ID stmt0 start");
 	String ClientIDstring = request.getParameter("ClientID");
-	
 	request.setAttribute("ClientID", ClientIDstring);
 	System.out.println(ClientIDstring);
-	request.setAttribute("ClientID", ClientIDstring);
+	//request.setAttribute("ClientID", ClientIDstring);
 	request.getRequestDispatcher("payment.jsp").forward(request, response);
 	
 }
@@ -492,10 +518,11 @@ private void ClientBillRespondToDavid(HttpServletRequest request, HttpServletRes
         System.out.println(AmountSuggested);
         String Note = request.getParameter("Note");
         clientDAO.ClientBillNegotiateResponse(BillID,AmountSuggested,Note);
+        System.out.println("Done Successfully");
         response.sendRedirect("activitypage.jsp");
     
 }
-private void DavidBillRespondToDavid(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+private void DavidBillRespondToClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
     
     
     
@@ -513,7 +540,23 @@ private void DavidBillRespondToDavid(HttpServletRequest request, HttpServletResp
         response.sendRedirect("dactivitypage.jsp");
     
 }
-
+private void DavidBillAccept(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	
+	System.out.println("Bill ID stmt0");
+    String BillIDString = request.getParameter("BillID");
+    String AmountSuggestedstring = request.getParameter("AmountSuggested");
+    
+    int BillID = Integer.parseInt(BillIDString);
+    Double AmountSuggested = Double.parseDouble(AmountSuggestedstring);
+    System.out.println("Bill ID stmt0"+BillID);
+    System.out.println("Amount stmt0"+AmountSuggested);
+    if (clientDAO.DavidBillAcceptResponse(BillID,AmountSuggested)) {
+        System.out.println("David Bill Accept Updated Successfully");
+    } else {
+        System.out.println("Failed to update David accept Response");
+    }
+    request.getRequestDispatcher("dactivitypage.jsp").forward(request, response);
+}
 private void DavidAccept(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	
 	System.out.println("Request ID stmt0");

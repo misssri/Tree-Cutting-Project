@@ -89,6 +89,21 @@ body {
   background-color: #04AA6D;
   color: white;
 }
+.red-button {
+  background-color: #f44336; /* Red */
+  color: white;
+  padding: 10px;
+  width: 75px; /* Set the width */
+  height: 40px;
+}
+
+.blue-button {
+  background-color: #008CBA; /* Blue */
+  color: white;
+  padding: 10px;
+   width: 75px; /* Set the width */
+  height: 40px;
+}
 </style>
 </head>
 <body>
@@ -116,22 +131,22 @@ WHERE b.Status="pending" or b.Status="in progress";
   <a href="ListQuote.jsp">Show Initial Requests</a>
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
   <a href="dotherquotes.jsp">All Quotes</a>
-   <a href="dbilllist.jsp">View Pending Bills</a>
-  <a href="dbillnegotiate.jsp">View Bill Negotiations</a>
- <a href="login.jsp" class="split">Logout</a>
+  <a href="dbilllist.jsp">View Pending Bills</a>
+  <a href="dbillneglist.jsp">View Bills Under Negotiation</a>
+   <a href="login.jsp" class="split">Logout</a>
 			</div>
 			<div class="bg-image"></div>
 <div class="bg-text">
     <div align="center">
         <table border="1" cellpadding="5">
-            <caption><h2>List of All Quotes from Clients</h2></caption>
+            <caption><h2>List of All Pending Bills</h2></caption>
             <tr>
             <th>S.No</th>
                 <th>Client Name</th>
                 <th>Amount</th>
                 <th>Bill Date</th>
                 <th>Due Date</th>
-                <th>Status</th>
+                
                 <th>Respond</th>
             </tr>
             <c:forEach var="user" items="${listBills.rows}">
@@ -142,7 +157,7 @@ WHERE b.Status="pending" or b.Status="in progress";
                     <td><c:out value="${user.Amount}" /></td>
                     <td><c:out value="${user.BillDate}" /></td>
                     <td><c:out value="${user.DueDate}" /></td>
-                    <td><c:out value="${user.Status}" /></td>
+                   
                     
                     
                     
@@ -150,7 +165,7 @@ WHERE b.Status="pending" or b.Status="in progress";
                            	<form action="bdNegotiate" method="post">
                     	
                     		<input type="hidden" name="RequestID" value="${user.BillID}">
-                    		<input type="submit" value="Negotiate"/>
+                    		<input type="submit" class="blue-button" value="Negotiate"/>
                     	</form></td>
                 </tr>
                 <% serialNumber++; %>

@@ -113,14 +113,16 @@ LIMIT 1;
 <a class="active" href="DavidDashboard.jsp">Home</a>
   <a href="ListQuote.jsp">Show Initial Requests</a>
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
-   <a href="dotherquotes.jsp">All Quotes</a>
- <a href="login.jsp" class="split">Logout</a>
+  <a href="dotherquotes.jsp">All Quotes</a>
+  <a href="dbilllist.jsp">View Pending Bills</a>
+  <a href="dbillneglist.jsp">View Bills Under Negotiation</a>
+   <a href="login.jsp" class="split">Logout</a>
 			</div>
 			<div class="bg-image"></div>
 <div class="bg-text">
     <div align="center">
         <table border="1" cellpadding="5">
-            <caption><h2>List of All Quotes from Clients</h2></caption>
+            <caption><h2>Highest Tree Cut </h2></caption>
             <tr>
                 <th>S.No</th>
                 <th>Client Name</th>

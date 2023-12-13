@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>List Quotes</title>
+<title>List Bill Negotiations</title>
 <style>
 body, html {
   height: 100%;
@@ -109,7 +109,6 @@ body {
    width: 75px; /* Set the width */
   height: 40px;
 }
-
 </style>
 </head>
 <body>
@@ -127,13 +126,13 @@ body {
     />
      
     <sql:query var="listClientBills"   dataSource="${myDS}">
-               select b.*,c.FirstName,c.LastName,c.ClientID
-from Bill b
-JOIN WorkOrder w on b.OrderID = w.OrderID
+      select b1.*,c.FirstName
+from Billnegotiation b
+JOIN Bill b1 on b.BillID = b1.BillID
+JOIN WorkOrder w on b1.OrderID = w.OrderID
 JOIN QuoteRequest q on w.RequestID = q.RequestID
 JOIN Client c on q.ClientID = c.ClientID
-where b.Status <> 'accepted' and b.LatestNegotiationID=0 and c.ClientID = ${ClientID} ; 
-    </sql:query>
+where b1.Status <> 'accepted' and c.ClientID = ${ClientID};  </sql:query>
     <div class="topnav">
 <a class="active" href="ClientDashboard.jsp">Home</a>
   <a href="quoteRequest.jsp">Raise a Request</a>
@@ -148,12 +147,12 @@ where b.Status <> 'accepted' and b.LatestNegotiationID=0 and c.ClientID = ${Clie
    
         <table border="1" cellpadding="5">
             
+            <p>ClientID :${ClientID }</p>
             <tr>
             	<th>Request Number</th>
             	<th>Amount</th>
                 <th>BillDate</th>
                 <th>DueDate</th>
-                <th>Status</th> 
                 <th>Respond</th>
             </tr>
             <c:forEach var="user" items="${listClientBills.rows}">
@@ -162,19 +161,14 @@ where b.Status <> 'accepted' and b.LatestNegotiationID=0 and c.ClientID = ${Clie
                 	<td><c:out value="${user.Amount}" /></td>
                     <td><c:out value="${user.BillDate}" /></td>
                     <td><c:out value="${user.DueDate}" /></td>
-                    <td><c:out value="${user.Status}" /></td>
+                    
                     <td> <form action="bcpay"><input type="submit" class="blue-button" value="Pay"/>
                   
                    <input type="hidden" name="BillID" value="${user.BillID}">
                    <input type="hidden" name="ClientID" value="${user.ClientID}">
                    </form></br>
                     	
-                    	<form action="cbNegotiate" method="post">
-                    	
-                    		<input type="hidden" name="BillID" value="${user.BillID}">
-                    		<input type="hidden" name="ClientID" value="${user.ClientID}">
-                    		<input type="submit" class="blue-button" value="Negotiate"/>
-                    	</form></td>
+                    	</td>
                 </tr>
                 <% serialNumber++; %>
             </c:forEach>

@@ -28,7 +28,7 @@
   -webkit-filter: blur(8px);
   
   /* Full height */
-  height: 100%; 
+  height: 300%; 
   
   /* Center and scale the image nicely */
   background-position: center;
@@ -115,17 +115,18 @@ WHERE q.Status <> 'open';
 <a class="active" href="DavidDashboard.jsp">Home</a>
   <a href="ListQuote.jsp">Show Initial Requests</a>
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
-   <a href="dotherquotes.jsp">All Quotes</a>
-   <a href="dbilllist.jsp">View Pending Bills</a>
-  <a href="dbillneglist.jsp">View Bill Negotiations</a>
+  <a href="dotherquotes.jsp">All Quotes</a>
+  <a href="dbilllist.jsp">View Pending Bills</a>
+  <a href="dbillneglist.jsp">View Bills Under Negotiation</a>
    <a href="login.jsp" class="split">Logout</a>
 
 			</div>
 			<div class="bg-image"></div>
 <div class="bg-text">
-    <div align="center">
+<caption><h2>List of All Quotes from Clients</h2></caption>
+    <div align="center" style="height: 400px; overflow-y: scroll;">
         <table border="1" cellpadding="5">
-            <caption><h2>List of All Quotes from Clients</h2></caption>
+            
             <tr>
                 <th>S.No</th>
                 <th>Client Name</th>

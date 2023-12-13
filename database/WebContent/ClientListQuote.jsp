@@ -103,7 +103,7 @@ body {
     />
      
     <sql:query var="listClientQuotes"   dataSource="${myDS}">
-        SELECT q.*,r.Status FROM QuoteNegotiation q, QuoteRequest r WHERE q.NegotiatedBY = "David" and q.RequestID = r.RequestID and r.ClientID = ${ClientID} ;
+        SELECT q.*,r.Status FROM QuoteNegotiation q, QuoteRequest r WHERE r.Status <> "rejected" and q.NegotiatedBY = "David" and q.RequestID = r.RequestID and r.ClientID = ${ClientID} ;
     </sql:query>
     <div class="topnav">
 <a class="active" href="ClientDashboard.jsp">Home</a>
@@ -114,10 +114,11 @@ body {
      <div class="bg-image"></div>
 
 <div class="bg-text">
-    <div align="center">
+<caption><h2>List of All Quotes from Clients</h2></caption>
+    <div align="center" style="height: 400px; overflow-y: scroll;">
    
         <table border="1" cellpadding="5">
-            <caption><h2>List of All Quotes from Clients</h2></caption>
+            
             <tr>
             	<th>Request Number</th>
             	<th>PriceSuggested</th>

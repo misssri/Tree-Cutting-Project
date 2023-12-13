@@ -128,20 +128,21 @@ body {
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
   <a href="dotherquotes.jsp">All Quotes</a>
   <a href="dbilllist.jsp">View Pending Bills</a>
-  <a href="dbillneglist.jsp">View Bill Negotiations</a>
+  <a href="dbillneglist.jsp">View Bills Under Negotiation</a>
+  <a href="Allbillspaid.jsp">View All Paid Bills</a>
    <a href="login.jsp" class="split">Logout</a>
 			</div>
 			<div class="bg-image"></div>
 <div class="bg-text">
   <h1 class="glitter" style="font-size:50px">Welcome David!!</h1>
- <form action="clistdresponse"><input type="submit" class="standard-button"  style="font-size:20px" value="View Big clients"/></form></br>
+ <form action="BigClients.jsp"><input type="submit" class="standard-button"  style="font-size:20px" value="View Big clients"/></form></br>
  <form action="EasyClients.jsp"><input type="submit" class="standard-button" style="font-size:20px" value="View Easy Clients"/></form></br>
   <form action="HighestTreeCut.jsp"><input type="submit" class="standard-button" style="font-size:20px" value="View Highest Tree Cut"/></form></br>
- <form action="HighestTreeCut.jsp"><input type="submit" class="standard-button" style="font-size:20px" value="View Prospective clients"/></form></br>
+ <form action="ProspectiveClient.jsp"><input type="submit" class="standard-button" style="font-size:20px" value="View Prospective clients"/></form></br>
 <form action="OverdueBills.jsp"> <input type="submit" class="standard-button" style="font-size:20px" value="View Overdue bills"/></form></br>
-<form action="HighestTreeCut.jsp"> <input type="submit" class="standard-button" style="font-size:20px" value="View Bad clients"/></form></br>
+<form action="BadClients.jsp"> <input type="submit" class="standard-button" style="font-size:20px" value="View Bad clients"/></form></br>
 <form action="GoodClient.jsp"> <input type="submit" class="standard-button" style="font-size:20px" value="View Good Clients"/></form></br>
- <input type="submit" class="standard-button"  style="font-size:20px" value="Show Statistics"/>
+<form action="Statistics.jsp"> <input type="submit" class="standard-button"  style="font-size:20px" value="Show Statistics"/></form>
 
  
 </div>

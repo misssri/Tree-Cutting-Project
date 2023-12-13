@@ -47,7 +47,7 @@
   font-weight: bold;
   border: 3px solid #f1f1f1;
   position: absolute;
-  top: 70%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
@@ -88,6 +88,21 @@ body {
   background-color: #04AA6D;
   color: white;
 }
+.green-button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px;
+   width: 75px; /* Set the width */
+  height: 40px;
+}
+
+.blue-button {
+  background-color: #008CBA; /* Blue */
+  color: white;
+  padding: 10px;
+   width: 75px; /* Set the width */
+  height: 40px;
+}
 </style>
 </head>
 <body>
@@ -104,30 +119,38 @@ body {
     />
      
     <sql:query var="listNegotiations"   dataSource="${myDS}">
-       SELECT b1.*,c.FirstName, c.LastName
+       SELECT b1.*, c.FirstName, c.LastName
 FROM BillNegotiation b1
 JOIN Bill b2 ON b1.BillID = b2.BillID
 JOIN WorkOrder w ON b2.OrderID = w.OrderID
 JOIN QuoteRequest q ON w.RequestID = q.RequestID
 JOIN Client c ON q.ClientID = c.ClientID
-WHERE b1.NegotiatedBY = 'Client' and b2.Status='pending'; </sql:query>
+WHERE b1.NegotiatedBY = "Client" 
+  AND b2.Status <> "accepted"
+  AND b1.NegotiationID = (
+    SELECT MAX(NegotiationID)
+    FROM BillNegotiation
+    WHERE BillID = b1.BillID
+  );
+        </sql:query>
      <div class="topnav">
 <a class="active" href="DavidDashboard.jsp">Home</a>
   <a href="ListQuote.jsp">Show Initial Requests</a>
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
-    <a href="dotherquotes.jsp">All Quotes</a>
+  <a href="dotherquotes.jsp">All Quotes</a>
   <a href="dbilllist.jsp">View Pending Bills</a>
-  <a href="dbillneglist.jsp">View Bill Negotiations</a>
-   <a href="login.jsp" class="split">Logout</a>
-			</div>
+  <a href="dbillneglist.jsp">View Bills Under Negotiation</a>
+   <a href="login.jsp" class="split">Logout</a>			</div>
 			<div class="bg-image"></div>
 <div class="bg-text">
-    <div align="center">
+ <caption><h2>List of Bills Under Negotiation</h2></caption>
+    <div align="center" style="height: 400px; overflow-y: scroll;">
    
         <table border="1" cellpadding="5">
-            <caption><h2>List of Bills Under Negotiation</h2></caption>
+           
             <tr>
             	<th>S.No</th>
+            	
             	<th>Client Name</th>
                 <th>PriceSuggested</th>
                 <th>Note</th>
@@ -137,22 +160,22 @@ WHERE b1.NegotiatedBY = 'Client' and b2.Status='pending'; </sql:query>
             <c:forEach var="user" items="${listNegotiations.rows}">
                 <tr>
                 	<td><%= serialNumber %></td>
-                	<td><c:out value="${user.BillID}" /></td>
+                	
                 	<td><c:out value="${user.FirstName}" /> <c:out value="${user.LastName}" /></td>
                     <td><c:out value="${user.AmountSuggested}" /></td>
                    
                     <td><c:out value="${user.Note}" /></td>
                     
                    <td> <form action="dbAccept"><input type="hidden" name="BillID" value="${user.BillID}">
-                   
-                   <input type="submit" value="Accept"/>
+                   <input type="hidden" name="AmountSuggested" value="${user.AmountSuggested}">
+                   <input type="submit" class="green-button" value="Accept"/>
                    
                    </form></br>
                     	
                     	<form action="bdNegotiate" method="post">
                     	
                     		<input type="hidden" name="BillID" value="${user.BillID}">
-                    		<input type="submit" value="Negotiate"/>
+                    		<input type="submit" class="blue-button" value="Negotiate"/>
                     	</form></td>
                 </tr>
                 <% serialNumber++; %>

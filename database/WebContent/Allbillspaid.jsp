@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>List Quotes</title>
 <style>
-body, html {
+   body, html {
   height: 100%;
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -28,12 +28,15 @@ body, html {
   -webkit-filter: blur(8px);
   
   /* Full height */
-  height: 100%; 
+  height: 300%; 
   
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
+
+  
 }
 
 /* Position text in the middle of the page/image */
@@ -48,7 +51,7 @@ body, html {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  width: 80%;
+  width: 90%;
   padding: 20px;
   text-align: center;
 }
@@ -56,6 +59,7 @@ body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 
 .topnav {
   overflow: hidden;
@@ -85,35 +89,9 @@ body {
   background-color: #04AA6D;
   color: white;
 }
-/* Define button colors */
-.green-button {
-  background-color: #4CAF50; /* Green */
-  color: white;
-  padding: 10px;
-   width: 75px; /* Set the width */
-  height: 40px;
-}
-
-.red-button {
-  background-color: #f44336; /* Red */
-  color: white;
-  padding: 10px;
-  width: 75px; /* Set the width */
-  height: 40px;
-}
-
-.blue-button {
-  background-color: #008CBA; /* Blue */
-  color: white;
-  padding: 10px;
-   width: 75px; /* Set the width */
-  height: 40px;
-}
-
 </style>
 </head>
 <body>
-
 <%
     
     // Counter for serial number
@@ -126,55 +104,45 @@ body {
         user="root" password="Vishnupriya2"
     />
      
-    <sql:query var="listClientBills"   dataSource="${myDS}">
-               select b.*,c.FirstName,c.LastName,c.ClientID
-from Bill b
-JOIN WorkOrder w on b.OrderID = w.OrderID
+    <sql:query var="listQuotes"   dataSource="${myDS}">
+        SELECT b.*,c.FirstName,c.LastName FROM Bill b
+JOIN WorkOrder w on b.OrderID=w.OrderID
 JOIN QuoteRequest q on w.RequestID = q.RequestID
 JOIN Client c on q.ClientID = c.ClientID
-where b.Status <> 'accepted' and b.LatestNegotiationID=0 and c.ClientID = ${ClientID} ; 
-    </sql:query>
-    <div class="topnav">
-<a class="active" href="ClientDashboard.jsp">Home</a>
-  <a href="quoteRequest.jsp">Raise a Request</a>
-  <a href="cotherquotes.jsp" >All Quotes</a>
+WHERE b.Status="accepted" ;
+ </sql:query>
+     <div class="topnav">
+<a class="active" href="DavidDashboard.jsp">Home</a>
+  <a href="ListQuote.jsp">Show Initial Requests</a>
+  <a href="ListNegotiations.jsp">Respond to Negotiations</a>
+  <a href="dotherquotes.jsp">All Quotes</a>
+  <a href="dbilllist.jsp">View Pending Bills</a>
+  <a href="dbillneglist.jsp">View Bills Under Negotiation</a>
    <a href="login.jsp" class="split">Logout</a>
-			</div>
-     <div class="bg-image"></div>
 
+			</div>
+			<div class="bg-image"></div>
 <div class="bg-text">
 <caption><h2>List of All Quotes from Clients</h2></caption>
     <div align="center" style="height: 400px; overflow-y: scroll;">
-   
         <table border="1" cellpadding="5">
             
             <tr>
-            	<th>Request Number</th>
-            	<th>Amount</th>
-                <th>BillDate</th>
-                <th>DueDate</th>
-                <th>Status</th> 
-                <th>Respond</th>
+                <th>S.No</th>
+                <th>Client Name</th>
+                <th>Paid Date</th>
+                
+                
             </tr>
-            <c:forEach var="user" items="${listClientBills.rows}">
+            <c:forEach var="user" items="${listQuotes.rows}">
                 <tr>
-                	<td><%= serialNumber %></td>
-                	<td><c:out value="${user.Amount}" /></td>
-                    <td><c:out value="${user.BillDate}" /></td>
-                    <td><c:out value="${user.DueDate}" /></td>
-                    <td><c:out value="${user.Status}" /></td>
-                    <td> <form action="bcpay"><input type="submit" class="blue-button" value="Pay"/>
-                  
-                   <input type="hidden" name="BillID" value="${user.BillID}">
-                   <input type="hidden" name="ClientID" value="${user.ClientID}">
-                   </form></br>
-                    	
-                    	<form action="cbNegotiate" method="post">
-                    	
-                    		<input type="hidden" name="BillID" value="${user.BillID}">
-                    		<input type="hidden" name="ClientID" value="${user.ClientID}">
-                    		<input type="submit" class="blue-button" value="Negotiate"/>
-                    	</form></td>
+                <td><%= serialNumber %></td>
+                    
+                    <td><c:out value="${user.FirstName}" /> <c:out value="${user.LastName}" /></td>
+                    <td><c:out value="${user.PaidDate}" /></td>
+                    
+                    
+                   
                 </tr>
                 <% serialNumber++; %>
             </c:forEach>

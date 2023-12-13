@@ -101,7 +101,7 @@ body {
     />
      
     <sql:query var="listeasyclient"   dataSource="${myDS}">
-      SELECT qr.ClientID,c.FirstName, c.LastName
+      SELECT DISTINCT qr.ClientID,c.FirstName, c.LastName
 FROM QuoteRequest qr
 JOIN Client c ON qr.ClientID = c.ClientID
 WHERE qr.LatestNegotiationID = 1 and qr.Status = 'accepted';
@@ -111,15 +111,15 @@ WHERE qr.LatestNegotiationID = 1 and qr.Status = 'accepted';
   <a href="ListQuote.jsp">Show Initial Requests</a>
   <a href="ListNegotiations.jsp">Respond to Negotiations</a>
   <a href="dotherquotes.jsp">All Quotes</a>
-   <a href="dbilllist.jsp">View Pending Bills</a>
-  <a href="dbillnegotiate.jsp">View Bill Negotiations</a>
- <a href="login.jsp" class="split">Logout</a>
+  <a href="dbilllist.jsp">View Pending Bills</a>
+  <a href="dbillneglist.jsp">View Bills Under Negotiation</a>
+   <a href="login.jsp" class="split">Logout</a>
 			</div>
 			<div class="bg-image"></div>
 <div class="bg-text">
     <div align="center">
         <table border="1" cellpadding="5">
-           <h2>Clients Who easily accepts prices</h2>
+           <h2>Clients who easily accept prices without negotiation!</h2>
             <tr>
             <th>S.No</th>
                 <th>Client Name</th>

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<titleOverDue Bills</title>
+<title>List Prospective Client</title>
 <style>
    body, html {
   height: 100%;
@@ -88,7 +88,6 @@ body {
 </style>
 </head>
 <body>
-
 <%
     
     // Counter for serial number
@@ -101,13 +100,11 @@ body {
         user="root" password="Vishnupriya2"
     />
      
-    <sql:query var="listBills"   dataSource="${myDS}">
-  SELECT b.*,c.FirstName,c.Lastname 
-FROM Bill b
-JOIN WorkOrder wo ON b.OrderID = wo.OrderID
-JOIN QuoteRequest q on wo.RequestID=q.RequestID
-JOIN Client c on q.ClientID = c.ClientID
-WHERE b.Status = 'pending' AND CURRENT_DATE > DATE_ADD(b.BillDate, INTERVAL 1 WEEK);
+    <sql:query var="listeasyclient"   dataSource="${myDS}">
+      SELECT c.FirstName, c.LastName 
+FROM Client c
+LEFT JOIN QuoteRequest qr ON c.ClientID = qr.ClientID
+WHERE qr.RequestID IS NULL and c.Role='Client';
  </sql:query>
      <div class="topnav">
 <a class="active" href="DavidDashboard.jsp">Home</a>
@@ -122,28 +119,22 @@ WHERE b.Status = 'pending' AND CURRENT_DATE > DATE_ADD(b.BillDate, INTERVAL 1 WE
 <div class="bg-text">
     <div align="center">
         <table border="1" cellpadding="5">
-            <caption><h2>Overdue Bills</h2></caption>
+           <h2>Clients that submitted some quotes but never produced any orders of work</h2>
             <tr>
             <th>S.No</th>
                 <th>Client Name</th>
-                <th>Amount</th>
-                <th>Bill Date</th>
-                <th>Due Date</th>
                 
             </tr>
-            <c:forEach var="user" items="${listBills.rows}">
+            <c:forEach var="user" items="${listeasyclient.rows}">
                 <tr>
                 <td><%= serialNumber %></td>
                     <td><c:out value="${user.FirstName}" /> <c:out value="${user.LastName}" /></td>
                     
-                    <td><c:out value="${user.Amount}" /></td>
-                    <td><c:out value="${user.BillDate}" /></td>
-                    <td><c:out value="${user.DueDate}" /></td>
                     
                     
                     
                     
-                    
+                
                 </tr>
                 <% serialNumber++; %>
             </c:forEach>

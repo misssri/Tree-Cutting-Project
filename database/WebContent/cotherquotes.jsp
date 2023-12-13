@@ -114,10 +114,11 @@ body {
      <div class="bg-image"></div>
 
 <div class="bg-text">
-    <div align="center">
+  <caption><h2>List of All Quotes from Clients</h2></caption>
+    <div align="center" style="height: 400px; overflow-y: scroll;">
    
         <table border="1" cellpadding="5">
-            <caption><h2>List of All Quotes from Clients</h2></caption>
+          
             <tr>
             	<th>Request Number</th>
             	<th>PriceSuggested</th>

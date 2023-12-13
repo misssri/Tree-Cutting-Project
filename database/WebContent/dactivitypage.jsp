@@ -58,7 +58,7 @@ body, html {
 <div class="bg-image"></div>
 
 <div class="bg-text">
-<center><h1> You have successfully reponded! Click below to redirect</h1>
+<center><h1> Thank You! Click below to redirect</h1>
  
 	<body>
 	 <center>
