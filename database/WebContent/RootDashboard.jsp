@@ -123,28 +123,23 @@ body {
 </head>
 <body>
 <div class="topnav">
-<a class="active" href="DavidDashboard.jsp">Home</a>
-  <a href="ListQuote.jsp">Show Initial Requests</a>
-  <a href="ListNegotiations.jsp">Respond to Negotiations</a>
-  <a href="dotherquotes.jsp">All Quotes</a>
-  <a href="dbilllist.jsp">View Pending Bills</a>
-  <a href="dbillneglist.jsp">View Bills Under Negotiation</a>
-  <a href="Allbillspaid.jsp">View All Paid Bills</a>
+<a class="active" href="rootView.jsp">Initialization</a>
+  
    <a href="login.jsp" class="split">Logout</a>
 			</div>
 			<div class="bg-image"></div>
 <div class="bg-text">
-  <h1 class="glitter" style="font-size:50px">Welcome David!!</h1>
- <form action="BigClients.jsp"><input type="submit" class="standard-button"  style="font-size:20px" value="View Big clients"/></form></br>
- <form action="EasyClients.jsp"><input type="submit" class="standard-button" style="font-size:20px" value="View Easy Clients"/></form></br>
-  <form action="OneTreeQuote.jsp"> <input type="submit" class="standard-button"  style="font-size:20px" value="View One Tree Quote"/></form></br>
+  <h1 class="glitter" style="font-size:50px">Welcome Admin!!</h1>
+ <form action="rBigClients.jsp"><input type="submit" class="standard-button"  style="font-size:20px" value="View Big clients"/></form></br>
+ <form action="rEasyClients.jsp"><input type="submit" class="standard-button" style="font-size:20px" value="View Easy Clients"/></form></br>
+  <form action="rOneTreeQuote.jsp"> <input type="submit" class="standard-button"  style="font-size:20px" value="View One Tree Quote"/></form></br>
   
-  <form action="HighestTreeCut.jsp"><input type="submit" class="standard-button" style="font-size:20px" value="View Highest Tree Cut"/></form></br>
- <form action="ProspectiveClient.jsp"><input type="submit" class="standard-button" style="font-size:20px" value="View Prospective clients"/></form></br>
-<form action="OverdueBills.jsp"> <input type="submit" class="standard-button" style="font-size:20px" value="View Overdue bills"/></form></br>
-<form action="BadClients.jsp"> <input type="submit" class="standard-button" style="font-size:20px" value="View Bad clients"/></form></br>
-<form action="GoodClient.jsp"> <input type="submit" class="standard-button" style="font-size:20px" value="View Good Clients"/></form></br>
-<form action="Statistics.jsp"> <input type="submit" class="standard-button"  style="font-size:20px" value="Show Statistics"/></form>
+  <form action="rHighestTreeCut.jsp"><input type="submit" class="standard-button" style="font-size:20px" value="View Highest Tree Cut"/></form></br>
+ <form action="rProspectiveClient.jsp"><input type="submit" class="standard-button" style="font-size:20px" value="View Prospective clients"/></form></br>
+<form action="rOverdueBills.jsp"> <input type="submit" class="standard-button" style="font-size:20px" value="View Overdue bills"/></form></br>
+<form action="rBadClients.jsp"> <input type="submit" class="standard-button" style="font-size:20px" value="View Bad clients"/></form></br>
+<form action="rGoodClient.jsp"> <input type="submit" class="standard-button" style="font-size:20px" value="View Good Clients"/></form></br>
+<form action="rStatistics.jsp"> <input type="submit" class="standard-button"  style="font-size:20px" value="Show Statistics"/></form>
 
  
 </div>

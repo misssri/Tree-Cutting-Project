@@ -17,7 +17,11 @@
 	<a href="login.jsp"target ="_self" > logout</a><br><br> 
 <form action = "listc.jsp">
 		<input type = "submit" value = "List"/>
+	</form><br><br>
+	<form action = "RootDashboard.jsp">
+		<input type = "submit" value = "Dashboard"/>
 	</form>
+	</div>
 
 
 
